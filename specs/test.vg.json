@@ -1,0 +1,17 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Test chart to confirm setup works",
+  "width": "container",
+  "data": {
+    "values": [
+      {"type": "Compact", "units": 50},
+      {"type": "DSLR", "units": 30},
+      {"type": "Mirrorless", "units": 20}
+    ]
+  },
+  "mark": "bar",
+  "encoding": {
+    "x": {"field": "type", "type": "nominal"},
+    "y": {"field": "units", "type": "quantitative"}
+  }
+}
