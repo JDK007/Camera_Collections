@@ -332,102 +332,83 @@
       ]
     },
     {
-      "hconcat": [
+      "width": 830,
+      "height": 130,
+      "data": {
+        "url": "data/cameras_1000_specs_1994-2007.csv"
+      },
+      "transform": [
         {
-          "width": 287,
-          "height": 90,
-          "data": {
-            "values": [
-              {}
-            ]
-          },
-          "mark": {
-            "type": "point",
-            "opacity": 0
-          }
+          "calculate": "datum['Release date']",
+          "as": "year"
         },
         {
-          "width": 447,
-          "height": 90,
-          "data": {
-            "url": "data/cameras_1000_specs_1994-2007.csv"
-          },
-          "transform": [
+          "aggregate": [
             {
-              "calculate": "datum['Release date']",
-              "as": "year"
-            },
-            {
-              "aggregate": [
-                {
-                  "op": "count",
-                  "as": "models"
-                }
-              ],
-              "groupby": [
-                "year"
-              ]
+              "op": "count",
+              "as": "models"
             }
           ],
-          "encoding": {
-            "x": {
-              "field": "year",
-              "type": "quantitative",
-              "scale": {
-                "domain": [
-                  1993.5,
-                  2007.5
-                ],
-                "nice": false
-              },
-              "axis": {
-                "format": "d",
-                "tickCount": 14,
-                "title": null,
-                "grid": false,
-                "labelAngle": 0,
-                "labelFontSize": 10
-              }
-            },
-            "y": {
-              "field": "models",
-              "type": "quantitative",
-              "title": null,
-              "axis": {
-                "tickCount": 3
-              }
-            }
-          },
-          "layer": [
-            {
-              "mark": {
-                "type": "bar",
-                "color": "#9cc0ec",
-                "width": 18,
-                "cornerRadiusEnd": 2
-              },
-              "encoding": {
-                "tooltip": [
-                  {
-                    "field": "year",
-                    "type": "quantitative",
-                    "title": "Year",
-                    "format": "d"
-                  },
-                  {
-                    "field": "models",
-                    "type": "quantitative",
-                    "title": "Models released"
-                  }
-                ]
-              }
-            }
-          ],
-          "title": "Digital camera models released each year"
+          "groupby": [
+            "year"
+          ]
         }
       ],
-      "spacing": 0,
-      "bounds": "flush"
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              1993.5,
+              2007.5
+            ],
+            "nice": false
+          },
+          "axis": {
+            "format": "d",
+            "tickCount": 14,
+            "title": null,
+            "grid": false,
+            "labelAngle": 0,
+            "labelFontSize": 10
+          }
+        },
+        "y": {
+          "field": "models",
+          "type": "quantitative",
+          "title": null,
+          "axis": {
+            "tickCount": 3
+          }
+        }
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "bar",
+            "color": "#9cc0ec",
+            "width": 36,
+            "cornerRadiusEnd": 2
+          },
+          "encoding": {
+            "tooltip": [
+              {
+                "field": "year",
+                "type": "quantitative",
+                "title": "Year",
+                "format": "d"
+              },
+              {
+                "field": "models",
+                "type": "quantitative",
+                "title": "Models released"
+              }
+            ]
+          }
+        }
+      ],
+      "title": "Digital camera models released each year"
     }
   ]
 }
