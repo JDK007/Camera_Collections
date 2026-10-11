@@ -1,0 +1,125 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "The megapixel race: digital camera shipments (CIPA) above the megapixels of every camera model released 1994-2007 (1000 Cameras Dataset).",
+  "config": {
+    "font": "Open Sans",
+    "view": {"stroke": null},
+    "title": {"anchor": "start", "fontSize": 13, "fontWeight": "normal", "color": "#52514e"},
+    "axis": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "gridColor": "#e8e7e4",
+      "domainColor": "#c3c2b7",
+      "tickColor": "#c3c2b7"
+    }
+  },
+  "vconcat": [
+    {
+      "title": "Cameras shipped worldwide (millions)",
+      "width": 830,
+      "height": 110,
+      "data": {"url": "data/cipa_digital_by_type_1999-2025.csv"},
+      "transform": [
+        {"filter": "datum.year <= 2007"},
+        {"calculate": "datum.total_thousand_units / 1000", "as": "shipped_millions"}
+      ],
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "scale": {"domain": [1993.5, 2007.5], "nice": false},
+          "axis": null
+        },
+        "y": {
+          "field": "shipped_millions",
+          "type": "quantitative",
+          "title": null,
+          "axis": {"tickCount": 3, "format": "d"}
+        }
+      },
+      "layer": [
+        {"mark": {"type": "area", "color": "#d6d4ce", "interpolate": "monotone"}},
+        {"mark": {"type": "line", "color": "#8a8880", "strokeWidth": 2, "interpolate": "monotone"}},
+        {
+          "mark": {"type": "point", "filled": true, "size": 40, "color": "#8a8880"},
+          "encoding": {
+            "tooltip": [
+              {"field": "year", "type": "quantitative", "title": "Year", "format": "d"},
+              {"field": "shipped_millions", "type": "quantitative", "title": "Cameras shipped (millions)", "format": ".1f"}
+            ]
+          }
+        },
+        {
+          "data": {"values": [{"year": 2007, "shipped_millions": 100.4}]},
+          "mark": {"type": "text", "align": "right", "dx": -8, "dy": -6, "fontSize": 12, "color": "#52514e"},
+          "encoding": {"text": {"value": "100 million in 2007"}}
+        },
+        {
+          "data": {"values": [{"year": 1994.2, "shipped_millions": 60}]},
+          "mark": {"type": "text", "align": "left", "fontSize": 12, "fontStyle": "italic", "color": "#8a8880"},
+          "encoding": {"text": {"value": "Shipment figures begin in 1999"}}
+        }
+      ]
+    },
+    {
+      "title": "Megapixels of every camera released (each dot is one model)",
+      "width": 830,
+      "height": 340,
+      "data": {"url": "data/cameras_1000_specs_1994-2007.csv"},
+      "transform": [
+        {"calculate": "datum['Release date']", "as": "year"},
+        {"calculate": "datum['Effective pixels']", "as": "megapixels"}
+      ],
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "scale": {"domain": [1993.5, 2007.5], "nice": false},
+          "axis": {"format": "d", "tickCount": 14, "title": "Release year", "grid": false}
+        },
+        "y": {
+          "field": "megapixels",
+          "type": "quantitative",
+          "title": "Megapixels",
+          "scale": {"domain": [0, 22]}
+        }
+      },
+      "layer": [
+        {
+          "transform": [{"calculate": "datum.year + (random() - 0.5) * 0.6", "as": "year_jittered"}],
+          "mark": {"type": "circle", "size": 34, "opacity": 0.35, "color": "#2a78d6", "clip": true},
+          "encoding": {
+            "x": {"field": "year_jittered"},
+            "tooltip": [
+              {"field": "Model", "type": "nominal", "title": "Camera"},
+              {"field": "year", "type": "quantitative", "title": "Released", "format": "d"},
+              {"field": "megapixels", "type": "quantitative", "title": "Megapixels"},
+              {"field": "Price", "type": "quantitative", "title": "Price (US$)", "format": ",.0f"}
+            ]
+          }
+        },
+        {
+          "transform": [
+            {"filter": "datum.year >= 1997"},
+            {"aggregate": [{"op": "median", "field": "megapixels", "as": "megapixels"}], "groupby": ["year"]}
+          ],
+          "mark": {"type": "line", "color": "#eb6834", "strokeWidth": 2.5, "point": {"filled": true, "size": 50, "color": "#eb6834"}},
+          "encoding": {
+            "tooltip": [
+              {"field": "year", "type": "quantitative", "title": "Year", "format": "d"},
+              {"field": "megapixels", "type": "quantitative", "title": "Typical camera (megapixels)"}
+            ]
+          }
+        },
+        {
+          "data": {"values": [{"year": 1994.2, "megapixels": 20.5}]},
+          "mark": {"type": "text", "align": "left", "baseline": "top", "fontSize": 13, "fontWeight": "bold", "color": "#b5491f", "lineHeight": 18},
+          "encoding": {
+            "text": {"value": ["The typical camera (orange line) went from", "under 1 MP in 1997 to 8 MP in 2007."]}
+          }
+        }
+      ]
+    }
+  ]
+}

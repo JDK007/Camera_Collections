@@ -24,34 +24,35 @@
 <body>
   <div class="page">
 
-      <div class="pure-g">
-    <div class="pure-u-1-1">
-      <h1>Point, Shoot, Survive</h1>
-      <p class="byline">By Jayden de Kauwe · FIT3179 Data Visualisation 2 · October 2026</p>
-    </div>
-  </div>
-
-    <div class="pure-g">
-      <div class="pure-u-1-2">
-        <div class="description">
-          <h2>Test section</h2>
-          <p>Placeholder text to check the two-column layout works.</p>
-        </div>
+    <header class="pure-g">
+      <div class="pure-u-1-1">
+        <h1>Point, Shoot, Survive</h1>
+        <p class="byline">By Jayden de Kauwe · FIT3179 Data Visualisation 2 · October 2026</p>
       </div>
-      <div class="pure-u-1-2">
-        <div id="test_chart" class="vis-container"></div>
-      </div>
-    </div>
+    </header>
 
-  <div class="pure-g">
-    <div class="pure-u-1-1 small-font">
-      <p><strong>Author:</strong> Jayden de Kauwe · <strong>Published:</strong> October 2026</p>
-      <p><strong>Data sources:</strong> Camera &amp; Imaging Products Association (CIPA) shipment statistics;
+    <section class="pure-g chapter">
+      <div class="pure-u-1-1">
+        <p class="chapter-number">Chapter 2</p>
+        <h2>The megapixel race</h2>
+        <p class="intro">As digital cameras took off, makers competed on one number: megapixels. In ten years the
+          typical new camera went from under one megapixel to eight, while yearly sales grew to 100 million.</p>
+        <div id="megapixels" class="vis-container"></div>
+        <p class="source">Sources: Camera &amp; Imaging Products Association (CIPA), total digital camera shipments;
+          1000 Cameras Dataset (Isenberg, Dragicevic &amp; Jansen, via Kaggle). Megapixels are rounded to the
+          nearest whole number in the source data. Hover over a dot to see the camera.</p>
+      </div>
+    </section>
+
+    <footer class="pure-g">
+      <div class="pure-u-1-1 small-font">
+        <p><strong>Author:</strong> Jayden de Kauwe · <strong>Published:</strong> October 2026</p>
+        <p><strong>Data sources:</strong> Camera &amp; Imaging Products Association (CIPA) shipment statistics;
           1000 Cameras Dataset (Isenberg, Dragicevic &amp; Jansen, via Kaggle, CC BY-SA 3.0);
           UN Comtrade.</p>
-      <p>AI tools were used to assist with text editing and ideation for idioms.</p>
-    </div>
-  </div>
+        <p>AI tools were used to assist with text editing and ideation for idioms.</p>
+      </div>
+    </footer>
 
   </div>
   <script src="js/charts.js"></script>
