@@ -52,7 +52,7 @@
           ]
         },
         {
-          "filter": "isValid(datum.shipped_millions) && !(datum.camera_type == 'Digital' && datum.year < 1999)"
+          "filter": "isValid(datum.shipped_millions) && !(datum.camera_type == 'Digital' && datum.year < 1999) && !(datum.camera_type == 'Film' && datum.year > 2007)"
         }
       ],
       "encoding": {
@@ -66,7 +66,14 @@
             ],
             "nice": false
           },
-          "axis": null
+          "axis": {
+            "format": "d",
+            "tickCount": 26,
+            "title": null,
+            "grid": false,
+            "labelAngle": 0,
+            "labelFontSize": 10
+          }
         },
         "y": {
           "field": "shipped_millions",
@@ -277,7 +284,7 @@
             "type": "text",
             "align": "left",
             "dx": 8,
-            "dy": 4,
+            "dy": -12,
             "fontSize": 12,
             "color": "#b5491f"
           },
@@ -289,81 +296,138 @@
               "value": "Film ends: 2007"
             }
           }
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "year": 1999,
+                "shipped_millions": 5.1
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "baseline": "bottom",
+            "dx": -8,
+            "fontSize": 12,
+            "fontStyle": "italic",
+            "color": "#1a4f8f",
+            "lineHeight": 16,
+            "dy": -4
+          },
+          "encoding": {
+            "color": {
+              "value": "#1a4f8f"
+            },
+            "text": {
+              "value": [
+                "Digital figures",
+                "begin in 1999"
+              ]
+            }
+          }
         }
       ]
     },
     {
-      "title": "Digital camera models released each year (in the 1000 Cameras Dataset)",
-      "width": 830,
-      "height": 90,
-      "data": {
-        "url": "data/cameras_1000_specs_1994-2007.csv"
-      },
-      "transform": [
+      "hconcat": [
         {
-          "calculate": "datum['Release date']",
-          "as": "year"
+          "width": 287,
+          "height": 90,
+          "data": {
+            "values": [
+              {}
+            ]
+          },
+          "mark": {
+            "type": "point",
+            "opacity": 0
+          }
         },
         {
-          "aggregate": [
+          "width": 447,
+          "height": 90,
+          "data": {
+            "url": "data/cameras_1000_specs_1994-2007.csv"
+          },
+          "transform": [
             {
-              "op": "count",
-              "as": "models"
+              "calculate": "datum['Release date']",
+              "as": "year"
+            },
+            {
+              "aggregate": [
+                {
+                  "op": "count",
+                  "as": "models"
+                }
+              ],
+              "groupby": [
+                "year"
+              ]
             }
           ],
-          "groupby": [
-            "year"
-          ]
+          "encoding": {
+            "x": {
+              "field": "year",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  1993.5,
+                  2007.5
+                ],
+                "nice": false
+              },
+              "axis": {
+                "format": "d",
+                "tickCount": 14,
+                "title": null,
+                "grid": false,
+                "labelAngle": 0,
+                "labelFontSize": 10
+              }
+            },
+            "y": {
+              "field": "models",
+              "type": "quantitative",
+              "title": null,
+              "axis": {
+                "tickCount": 3
+              }
+            }
+          },
+          "layer": [
+            {
+              "mark": {
+                "type": "bar",
+                "color": "#9cc0ec",
+                "width": 18,
+                "cornerRadiusEnd": 2
+              },
+              "encoding": {
+                "tooltip": [
+                  {
+                    "field": "year",
+                    "type": "quantitative",
+                    "title": "Year",
+                    "format": "d"
+                  },
+                  {
+                    "field": "models",
+                    "type": "quantitative",
+                    "title": "Models released"
+                  }
+                ]
+              }
+            }
+          ],
+          "title": "Digital camera models released each year"
         }
       ],
-      "mark": {
-        "type": "bar",
-        "color": "#9cc0ec",
-        "width": 18,
-        "cornerRadiusEnd": 2
-      },
-      "encoding": {
-        "x": {
-          "field": "year",
-          "type": "quantitative",
-          "scale": {
-            "domain": [
-              1984.5,
-              2010.5
-            ],
-            "nice": false
-          },
-          "axis": {
-            "format": "d",
-            "tickCount": 26,
-            "title": null,
-            "grid": false,
-            "labelAngle": 0,
-            "labelFontSize": 10
-          }
-        },
-        "y": {
-          "field": "models",
-          "type": "quantitative",
-          "title": null,
-          "axis": {
-            "tickCount": 3
-          }
-        },
-        "tooltip": [
-          {
-            "field": "year",
-            "type": "quantitative",
-            "title": "Year",
-            "format": "d"
-          },
-          {
-            "field": "models",
-            "type": "quantitative",
-            "title": "Models released"
-          }
-        ]
-      }
+      "spacing": 0,
+      "bounds": "flush"
     }
   ]
 }
