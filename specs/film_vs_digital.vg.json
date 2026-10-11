@@ -1,0 +1,369 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Film to digital: film and digital camera shipments (CIPA) above the number of digital camera models released each year (1000 Cameras Dataset).",
+  "config": {
+    "font": "Open Sans",
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "anchor": "start",
+      "fontSize": 13,
+      "fontWeight": "normal",
+      "color": "#52514e"
+    },
+    "axis": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "gridColor": "#e8e7e4",
+      "domainColor": "#c3c2b7",
+      "tickColor": "#c3c2b7"
+    }
+  },
+  "vconcat": [
+    {
+      "title": "Cameras shipped worldwide by major makers (millions)",
+      "width": 830,
+      "height": 300,
+      "data": {
+        "url": "data/cipa_film_vs_digital_1951-2025.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.year >= 1985 && datum.year <= 2010"
+        },
+        {
+          "calculate": "isValid(datum.film_thousand_units) ? datum.film_thousand_units / 1000 : null",
+          "as": "Film"
+        },
+        {
+          "calculate": "isValid(datum.digital_thousand_units) ? datum.digital_thousand_units / 1000 : null",
+          "as": "Digital"
+        },
+        {
+          "fold": [
+            "Film",
+            "Digital"
+          ],
+          "as": [
+            "camera_type",
+            "shipped_millions"
+          ]
+        },
+        {
+          "filter": "isValid(datum.shipped_millions) && !(datum.camera_type == 'Digital' && datum.year < 1999)"
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              1984.5,
+              2010.5
+            ],
+            "nice": false
+          },
+          "axis": null
+        },
+        "y": {
+          "field": "shipped_millions",
+          "type": "quantitative",
+          "title": null,
+          "scale": {
+            "domain": [
+              0,
+              130
+            ]
+          },
+          "axis": {
+            "tickCount": 6,
+            "format": "d"
+          }
+        },
+        "color": {
+          "field": "camera_type",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Film",
+              "Digital"
+            ],
+            "range": [
+              "#eb6834",
+              "#2a78d6"
+            ]
+          },
+          "legend": null
+        }
+      },
+      "layer": [
+        {
+          "data": {
+            "values": [
+              {
+                "year": 2002
+              }
+            ]
+          },
+          "mark": {
+            "type": "rule",
+            "color": "#8a8880",
+            "strokeDash": [
+              4,
+              4
+            ]
+          },
+          "encoding": {
+            "color": {
+              "value": "#8a8880"
+            },
+            "y": {
+              "value": 0
+            },
+            "y2": {
+              "value": 300
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "line",
+            "strokeWidth": 2.5
+          }
+        },
+        {
+          "mark": {
+            "type": "point",
+            "filled": true,
+            "size": 40
+          },
+          "encoding": {
+            "tooltip": [
+              {
+                "field": "year",
+                "type": "quantitative",
+                "title": "Year",
+                "format": "d"
+              },
+              {
+                "field": "camera_type",
+                "type": "nominal",
+                "title": "Type"
+              },
+              {
+                "field": "shipped_millions",
+                "type": "quantitative",
+                "title": "Cameras shipped (millions)",
+                "format": ".1f"
+              }
+            ]
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "year": 1986,
+                "shipped_millions": 30,
+                "camera_type": "Film",
+                "label": "Film"
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "fontSize": 14,
+            "fontWeight": "bold"
+          },
+          "encoding": {
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "year": 2004.6,
+                "shipped_millions": 88,
+                "camera_type": "Digital",
+                "label": "Digital"
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "fontSize": 14,
+            "fontWeight": "bold"
+          },
+          "encoding": {
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "year": 2002,
+                "shipped_millions": 128
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "baseline": "top",
+            "dx": -6,
+            "fontSize": 13,
+            "fontWeight": "bold",
+            "color": "#3a3936",
+            "lineHeight": 18
+          },
+          "encoding": {
+            "color": {
+              "value": "#3a3936"
+            },
+            "text": {
+              "value": [
+                "2002: digital overtakes film",
+                "(24.6 million vs 23.7 million)"
+              ]
+            }
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "year": 1997,
+                "shipped_millions": 36.7
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "dy": -14,
+            "fontSize": 12,
+            "color": "#b5491f"
+          },
+          "encoding": {
+            "color": {
+              "value": "#b5491f"
+            },
+            "text": {
+              "value": "Film peaks: 36.7 million (1997)"
+            }
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "year": 2007,
+                "shipped_millions": 0.8
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "dx": 8,
+            "dy": 4,
+            "fontSize": 12,
+            "color": "#b5491f"
+          },
+          "encoding": {
+            "color": {
+              "value": "#b5491f"
+            },
+            "text": {
+              "value": "Film ends: 2007"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Digital camera models released each year (in the 1000 Cameras Dataset)",
+      "width": 830,
+      "height": 90,
+      "data": {
+        "url": "data/cameras_1000_specs_1994-2007.csv"
+      },
+      "transform": [
+        {
+          "calculate": "datum['Release date']",
+          "as": "year"
+        },
+        {
+          "aggregate": [
+            {
+              "op": "count",
+              "as": "models"
+            }
+          ],
+          "groupby": [
+            "year"
+          ]
+        }
+      ],
+      "mark": {
+        "type": "bar",
+        "color": "#9cc0ec",
+        "width": 18,
+        "cornerRadiusEnd": 2
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              1984.5,
+              2010.5
+            ],
+            "nice": false
+          },
+          "axis": {
+            "format": "d",
+            "tickCount": 26,
+            "title": null,
+            "grid": false,
+            "labelAngle": 0,
+            "labelFontSize": 10
+          }
+        },
+        "y": {
+          "field": "models",
+          "type": "quantitative",
+          "title": null,
+          "axis": {
+            "tickCount": 3
+          }
+        },
+        "tooltip": [
+          {
+            "field": "year",
+            "type": "quantitative",
+            "title": "Year",
+            "format": "d"
+          },
+          {
+            "field": "models",
+            "type": "quantitative",
+            "title": "Models released"
+          }
+        ]
+      }
+    }
+  ]
+}

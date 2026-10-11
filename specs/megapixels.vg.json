@@ -23,7 +23,7 @@
   },
   "vconcat": [
     {
-      "title": "Cameras shipped worldwide (millions)",
+      "title": "Cameras shipped worldwide by major makers (millions)",
       "width": 830,
       "height": 110,
       "data": {
@@ -274,12 +274,12 @@
           ],
           "mark": {
             "type": "line",
-            "color": "#eb6834",
+            "color": "#1a4f8f",
             "strokeWidth": 2.5,
             "point": {
               "filled": true,
               "size": 50,
-              "color": "#eb6834"
+              "color": "#1a4f8f"
             }
           },
           "encoding": {
@@ -313,13 +313,13 @@
             "baseline": "top",
             "fontSize": 13,
             "fontWeight": "bold",
-            "color": "#b5491f",
+            "color": "#1a4f8f",
             "lineHeight": 18
           },
           "encoding": {
             "text": {
               "value": [
-                "The typical camera (orange line) went from",
+                "The typical camera (dark blue line) went from",
                 "under 1 MP in 1997 to 8 MP in 2007."
               ]
             }
