@@ -23,8 +23,8 @@
   },
   "vconcat": [
     {
-      "title": "Cameras shipped worldwide by major makers (millions)",
-      "width": 830,
+      "title": "Cameras shipped worldwide by major makers, 1999–2007 (millions)",
+      "width": 840,
       "height": 110,
       "data": {
         "url": "data/cipa_digital_by_type_1999-2025.csv"
@@ -44,12 +44,18 @@
           "type": "quantitative",
           "scale": {
             "domain": [
-              1993.5,
-              2007.5
+              1998.7,
+              2007.3
             ],
             "nice": false
           },
-          "axis": null
+          "axis": {
+            "format": "d",
+            "tickCount": 9,
+            "title": null,
+            "grid": false,
+            "labelAngle": 0
+          }
         },
         "y": {
           "field": "shipped_millions",
@@ -123,37 +129,22 @@
               "value": "100 million in 2007"
             }
           }
-        },
-        {
-          "data": {
-            "values": [
-              {
-                "year": 1994.2,
-                "shipped_millions": 60
-              }
-            ]
-          },
-          "mark": {
-            "type": "text",
-            "align": "left",
-            "fontSize": 12,
-            "fontStyle": "italic",
-            "color": "#8a8880"
-          },
-          "encoding": {
-            "text": {
-              "value": "Shipment figures begin in 1999"
-            }
-          }
         }
       ]
     },
     {
       "title": "Megapixels of every camera released (each dot is one model)",
-      "width": 830,
+      "width": 840,
       "height": 340,
       "data": {
-        "url": "data/cameras_1000_specs_1994-2007.csv"
+        "url": "data/cameras_1000_specs_1994-2007.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "Release date": "number",
+            "Effective pixels": "number"
+          }
+        }
       },
       "transform": [
         {
@@ -171,8 +162,8 @@
           "type": "quantitative",
           "scale": {
             "domain": [
-              1993.5,
-              2007.5
+              1993.7,
+              2007.3
             ],
             "nice": false
           },
@@ -216,8 +207,8 @@
               "type": "quantitative",
               "scale": {
                 "domain": [
-                  1993.5,
-                  2007.5
+                  1993.7,
+                  2007.3
                 ],
                 "nice": false
               },
@@ -244,12 +235,6 @@
                 "field": "megapixels",
                 "type": "quantitative",
                 "title": "Megapixels"
-              },
-              {
-                "field": "Price",
-                "type": "quantitative",
-                "title": "Price (US$)",
-                "format": ",.0f"
               }
             ]
           }

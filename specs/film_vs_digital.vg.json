@@ -24,7 +24,7 @@
   "vconcat": [
     {
       "title": "Cameras shipped worldwide by major makers (millions)",
-      "width": 830,
+      "width": 845,
       "height": 300,
       "data": {
         "url": "data/cipa_film_vs_digital_1951-2025.csv"
@@ -332,10 +332,18 @@
       ]
     },
     {
-      "width": 830,
+      "width": 845,
       "height": 130,
       "data": {
-        "url": "data/cameras_1000_specs_1994-2007.csv"
+        "url": "data/cameras_1000_specs_1994-2007.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "Release date": "number",
+            "Effective pixels": "number",
+            "Price": "number"
+          }
+        }
       },
       "transform": [
         {

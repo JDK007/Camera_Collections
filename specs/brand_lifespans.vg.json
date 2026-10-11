@@ -1,0 +1,357 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Brand lifespans: the years each brand released digital cameras (1000 Cameras Dataset), coloured by the brand's home country, beside each country's share of Australia's 2025 camera imports (UN Comtrade).",
+  "config": {
+    "font": "Open Sans",
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "anchor": "start",
+      "fontSize": 13,
+      "fontWeight": "normal",
+      "color": "#52514e"
+    },
+    "axis": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "gridColor": "#e8e7e4",
+      "domainColor": "#c3c2b7",
+      "tickColor": "#c3c2b7"
+    },
+    "legend": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal"
+    }
+  },
+  "spacing": 40,
+  "hconcat": [
+    {
+      "title": "Years each brand released digital cameras",
+      "width": 495,
+      "height": {
+        "step": 20
+      },
+      "data": {
+        "url": "data/cameras_1000_specs_1994-2007.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "Release date": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "calculate": "split(datum.Model, ' ')[0]",
+          "as": "brand"
+        },
+        {
+          "aggregate": [
+            {
+              "op": "min",
+              "field": "Release date",
+              "as": "first_year"
+            },
+            {
+              "op": "max",
+              "field": "Release date",
+              "as": "last_year"
+            },
+            {
+              "op": "count",
+              "as": "models"
+            }
+          ],
+          "groupby": [
+            "brand"
+          ]
+        },
+        {
+          "calculate": "datum.last_year + 1",
+          "as": "end"
+        },
+        {
+          "lookup": "brand",
+          "from": {
+            "data": {
+              "url": "data/brand_countries.csv"
+            },
+            "key": "brand",
+            "fields": [
+              "headquarters",
+              "home_region"
+            ]
+          }
+        }
+      ],
+      "mark": {
+        "type": "bar",
+        "cornerRadius": 3,
+        "height": 13
+      },
+      "encoding": {
+        "y": {
+          "field": "brand",
+          "type": "nominal",
+          "sort": {
+            "field": "first_year",
+            "order": "ascending"
+          },
+          "axis": {
+            "title": null,
+            "domain": false,
+            "ticks": false,
+            "labelPadding": 6
+          }
+        },
+        "x": {
+          "field": "first_year",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              1994,
+              2008
+            ],
+            "nice": false
+          },
+          "axis": {
+            "title": null,
+            "format": "d",
+            "labelAngle": 0,
+            "grid": true,
+            "values": [
+              1994,
+              1996,
+              1998,
+              2000,
+              2002,
+              2004,
+              2006
+            ]
+          }
+        },
+        "x2": {
+          "field": "end"
+        },
+        "color": {
+          "field": "home_region",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Japan",
+              "South Korea",
+              "USA",
+              "Europe"
+            ],
+            "range": [
+              "#6250d6",
+              "#e87ba4",
+              "#1baf7a",
+              "#eda100"
+            ]
+          },
+          "legend": {
+            "title": "Brand's home country",
+            "orient": "bottom",
+            "direction": "horizontal"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "brand",
+            "type": "nominal",
+            "title": "Brand"
+          },
+          {
+            "field": "headquarters",
+            "type": "nominal",
+            "title": "Headquarters"
+          },
+          {
+            "field": "first_year",
+            "type": "quantitative",
+            "title": "First model",
+            "format": "d"
+          },
+          {
+            "field": "last_year",
+            "type": "quantitative",
+            "title": "Last model",
+            "format": "d"
+          },
+          {
+            "field": "models",
+            "type": "quantitative",
+            "title": "Models in dataset"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Share of Australia's camera imports, 2025",
+      "width": 185,
+      "height": {
+        "step": 34
+      },
+      "data": {
+        "url": "data/comtrade_au_camera_imports_2025.json",
+        "format": {
+          "type": "json",
+          "property": "data"
+        }
+      },
+      "transform": [
+        {
+          "joinaggregate": [
+            {
+              "op": "max",
+              "field": "primaryValue",
+              "as": "world_total"
+            }
+          ]
+        },
+        {
+          "filter": {
+            "field": "partnerDesc",
+            "oneOf": [
+              "China",
+              "Japan",
+              "Rep. of Korea",
+              "USA",
+              "Germany",
+              "Belgium"
+            ]
+          }
+        },
+        {
+          "calculate": "datum.partnerDesc == 'Rep. of Korea' ? 'South Korea' : (datum.partnerDesc == 'Germany' || datum.partnerDesc == 'Belgium' ? 'Europe' : datum.partnerDesc)",
+          "as": "country"
+        },
+        {
+          "aggregate": [
+            {
+              "op": "sum",
+              "field": "primaryValue",
+              "as": "value"
+            },
+            {
+              "op": "max",
+              "field": "world_total",
+              "as": "world_total"
+            }
+          ],
+          "groupby": [
+            "country"
+          ]
+        },
+        {
+          "calculate": "datum.value / datum.world_total",
+          "as": "share"
+        }
+      ],
+      "encoding": {
+        "y": {
+          "field": "country",
+          "type": "nominal",
+          "sort": [
+            "China",
+            "Japan",
+            "South Korea",
+            "USA",
+            "Europe"
+          ],
+          "axis": {
+            "title": null,
+            "domain": false,
+            "ticks": false,
+            "labelPadding": 6
+          }
+        },
+        "x": {
+          "field": "share",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              0.5
+            ]
+          },
+          "axis": {
+            "title": null,
+            "format": ".0%",
+            "tickCount": 3
+          }
+        }
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "bar",
+            "cornerRadiusEnd": 3,
+            "height": 20
+          },
+          "encoding": {
+            "color": {
+              "field": "country",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Japan",
+                  "South Korea",
+                  "USA",
+                  "Europe",
+                  "China"
+                ],
+                "range": [
+                  "#6250d6",
+                  "#e87ba4",
+                  "#1baf7a",
+                  "#eda100",
+                  "#a3a19a"
+                ]
+              },
+              "legend": null
+            },
+            "tooltip": [
+              {
+                "field": "country",
+                "type": "nominal",
+                "title": "Country"
+              },
+              {
+                "field": "share",
+                "type": "quantitative",
+                "title": "Share of imports",
+                "format": ".1%"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "dx": 5,
+            "fontSize": 12,
+            "color": "#3a3936"
+          },
+          "encoding": {
+            "text": {
+              "field": "share",
+              "type": "quantitative",
+              "format": ".1%"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "resolve": {
+    "scale": {
+      "color": "independent"
+    }
+  }
+}

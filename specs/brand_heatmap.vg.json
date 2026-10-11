@@ -1,0 +1,233 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "The brand wars: total camera shipments (CIPA) above a heatmap of how many camera models each brand released per year, 1999-2007 (1000 Cameras Dataset).",
+  "config": {
+    "font": "Open Sans",
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "anchor": "start",
+      "fontSize": 13,
+      "fontWeight": "normal",
+      "color": "#52514e"
+    },
+    "axis": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "gridColor": "#e8e7e4",
+      "domainColor": "#c3c2b7",
+      "tickColor": "#c3c2b7"
+    }
+  },
+  "bounds": "flush",
+  "spacing": 44,
+  "vconcat": [
+    {
+      "title": "Cameras shipped worldwide by major makers (millions)",
+      "width": 705,
+      "height": 70,
+      "data": {
+        "url": "data/cipa_digital_by_type_1999-2025.csv"
+      },
+      "transform": [
+        {
+          "filter": "datum.year <= 2007"
+        },
+        {
+          "calculate": "datum.total_thousand_units / 1000",
+          "as": "shipped_millions"
+        }
+      ],
+      "mark": {
+        "type": "bar",
+        "color": "#c3c2b7",
+        "cornerRadiusEnd": 2
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "scale": {
+            "domain": [
+              1999,
+              2000,
+              2001,
+              2002,
+              2003,
+              2004,
+              2005,
+              2006,
+              2007
+            ],
+            "paddingInner": 0.15
+          },
+          "axis": null
+        },
+        "y": {
+          "field": "shipped_millions",
+          "type": "quantitative",
+          "title": null,
+          "axis": {
+            "tickCount": 2,
+            "format": "d",
+            "labelPadding": 6
+          }
+        },
+        "tooltip": [
+          {
+            "field": "year",
+            "type": "ordinal",
+            "title": "Year"
+          },
+          {
+            "field": "shipped_millions",
+            "type": "quantitative",
+            "title": "Cameras shipped (millions)",
+            "format": ".1f"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Camera models released by each brand (darker = more models)",
+      "width": 705,
+      "height": {
+        "step": 22
+      },
+      "data": {
+        "url": "data/cameras_1000_specs_1994-2007.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "Release date": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "calculate": "datum['Release date']",
+          "as": "year"
+        },
+        {
+          "filter": "datum.year >= 1999"
+        },
+        {
+          "calculate": "split(datum.Model, ' ')[0]",
+          "as": "brand"
+        },
+        {
+          "aggregate": [
+            {
+              "op": "count",
+              "as": "models"
+            }
+          ],
+          "groupby": [
+            "brand",
+            "year"
+          ]
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "sum",
+              "field": "models",
+              "as": "brand_total"
+            }
+          ],
+          "groupby": [
+            "brand"
+          ]
+        }
+      ],
+      "mark": {
+        "type": "rect",
+        "stroke": "white",
+        "strokeWidth": 2,
+        "cornerRadius": 2
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "scale": {
+            "domain": [
+              1999,
+              2000,
+              2001,
+              2002,
+              2003,
+              2004,
+              2005,
+              2006,
+              2007
+            ]
+          },
+          "axis": {
+            "title": null,
+            "labelAngle": 0,
+            "orient": "bottom",
+            "domain": false,
+            "ticks": false
+          }
+        },
+        "y": {
+          "field": "brand",
+          "type": "nominal",
+          "sort": {
+            "field": "brand_total",
+            "op": "max",
+            "order": "descending"
+          },
+          "axis": {
+            "title": null,
+            "domain": false,
+            "ticks": false,
+            "labelPadding": 6
+          }
+        },
+        "color": {
+          "field": "models",
+          "type": "quantitative",
+          "scale": {
+            "scheme": "blues",
+            "domain": [
+              0,
+              21
+            ]
+          },
+          "legend": {
+            "title": "Models released",
+            "orient": "right",
+            "gradientLength": 160,
+            "titleFontWeight": "normal"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "brand",
+            "type": "nominal",
+            "title": "Brand"
+          },
+          {
+            "field": "year",
+            "type": "ordinal",
+            "title": "Year"
+          },
+          {
+            "field": "models",
+            "type": "quantitative",
+            "title": "Models released"
+          },
+          {
+            "field": "brand_total",
+            "type": "quantitative",
+            "title": "Brand total, 1999–2007"
+          }
+        ]
+      }
+    }
+  ]
+}
