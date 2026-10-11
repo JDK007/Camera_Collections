@@ -1,7 +1,7 @@
 body * { font-family: 'Open Sans', sans-serif; }
 body { margin: 0; background-color: #ece7de; color: #2b2a28; }
 .page {
-  max-width: 1022px;
+  max-width: 1000px;
   margin: auto;
   padding: 35px 50px 50px;
   background-color: #faf7f2;
@@ -44,22 +44,3 @@ h3 { font-size: 24px; font-weight: 600; }
 .byline { color: #6b6760; }
 .interlude-text p { color: #2b2a28; }
 .source { color: #6b6760; }
-
-/* Film strip running down the right-hand edge of the page */
-.page { position: relative; padding-right: 72px; }
-.page::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 30px;
-  background:
-    repeating-linear-gradient(to bottom, #faf7f2 0 9px, transparent 9px 20px) left 5px top 6px / 6px 100% no-repeat,
-    repeating-linear-gradient(to bottom, #faf7f2 0 9px, transparent 9px 20px) right 5px top 6px / 6px 100% no-repeat,
-    #2b2a28;
-}
-@media (max-width: 700px) {
-  .page { padding-right: 20px; }
-  .page::after { display: none; }
-}
