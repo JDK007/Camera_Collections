@@ -1,19 +1,65 @@
 body * { font-family: 'Open Sans', sans-serif; }
-body { margin: 0; background-color: #f2f2f2; }
+body { margin: 0; background-color: #ece7de; color: #2b2a28; }
 .page {
-  max-width: 1000px;
+  max-width: 1022px;
   margin: auto;
   padding: 35px 50px 50px;
-  background-color: white;
+  background-color: #faf7f2;
 }
 .pure-g { margin-bottom: 40px; }
 .vis-container { width: 100%; }
 .description { padding-right: 20px; }
 .small-font { font-size: 14px; }
 .byline { color: #666; font-size: 15px; margin-top: -10px; }
-.chapter-number { color: #2a78d6; font-size: 14px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0; }
+.chapter-number { color: #9b2c2c; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; margin: 0; }
 .chapter h2 { margin-top: 4px; }
 .intro { max-width: 680px; line-height: 1.6; }
 .source { color: #777; font-size: 13px; line-height: 1.5; max-width: 860px; }
 
 .chapter h3 { margin-top: 48px; margin-bottom: 4px; }
+
+.subtitle { font-size: 22px; color: #3a3936; margin-top: -12px; margin-bottom: 8px; }
+
+/* Title */
+header h1 { font-size: 64px; line-height: 1.05; margin: 8px 0 18px; letter-spacing: -0.01em; }
+header .subtitle { font-size: 24px; margin-top: 0; }
+
+/* Space between chapters */
+.chapter { margin-top: 40px; }
+.chapter h3 { margin-top: 72px; }
+footer { margin-top: 96px; padding-top: 32px; border-top: 1px solid #e2dbcf; }
+
+/* Story interludes between chapters */
+.interlude { margin-top: 96px; padding-top: 64px; margin-bottom: 40px; align-items: center; border-top: 1px solid #e2dbcf; }
+.interlude-art { text-align: center; }
+.illustration { width: 210px; height: auto; }
+.interlude-text p { font-size: 21px; line-height: 1.55; color: #3a3936; max-width: 520px; margin: 0 auto; }
+
+/* Photo-paper theme: serif headings, darkroom-red accent */
+h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; color: #2b2a28; }
+h1 { font-weight: 700; }
+h2 { font-size: 34px; font-weight: 700; }
+h3 { font-size: 24px; font-weight: 600; }
+.subtitle { color: #9b2c2c; }
+.byline { color: #6b6760; }
+.interlude-text p { color: #2b2a28; }
+.source { color: #6b6760; }
+
+/* Film strip running down the right-hand edge of the page */
+.page { position: relative; padding-right: 72px; }
+.page::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 30px;
+  background:
+    repeating-linear-gradient(to bottom, #faf7f2 0 9px, transparent 9px 20px) left 5px top 6px / 6px 100% no-repeat,
+    repeating-linear-gradient(to bottom, #faf7f2 0 9px, transparent 9px 20px) right 5px top 6px / 6px 100% no-repeat,
+    #2b2a28;
+}
+@media (max-width: 700px) {
+  .page { padding-right: 20px; }
+  .page::after { display: none; }
+}

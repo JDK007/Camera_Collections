@@ -1,0 +1,280 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Brand rankings: each of the ten biggest brands ranked by number of camera models released per year, 1999-2007 (1000 Cameras Dataset). Click a line to highlight a brand.",
+  "config": {
+    "font": "Open Sans",
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "anchor": "start",
+      "fontSize": 13,
+      "fontWeight": "normal",
+      "color": "#52514e"
+    },
+    "axis": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "gridColor": "#e8e7e4",
+      "domainColor": "#c3c2b7",
+      "tickColor": "#c3c2b7"
+    }
+  },
+  "title": "Rank by number of camera models released each year (1 = most). Click a line to highlight it.",
+  "width": 740,
+  "height": 330,
+  "data": {
+    "url": "data/cameras_1000_specs_1994-2007.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "Release date": "number"
+      }
+    }
+  },
+  "transform": [
+    {
+      "calculate": "datum['Release date']",
+      "as": "year"
+    },
+    {
+      "calculate": "split(datum.Model, ' ')[0]",
+      "as": "brand"
+    },
+    {
+      "filter": "datum.year >= 1999"
+    },
+    {
+      "filter": {
+        "field": "brand",
+        "oneOf": [
+          "Olympus",
+          "Sony",
+          "Canon",
+          "Kodak",
+          "Fujifilm",
+          "Nikon",
+          "Pentax",
+          "Casio",
+          "Panasonic",
+          "Samsung"
+        ]
+      }
+    },
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "models"
+        }
+      ],
+      "groupby": [
+        "brand",
+        "year"
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "rank"
+        }
+      ],
+      "groupby": [
+        "year"
+      ],
+      "sort": [
+        {
+          "field": "models",
+          "order": "descending"
+        },
+        {
+          "field": "brand",
+          "order": "ascending"
+        }
+      ]
+    },
+    {
+      "calculate": "indexof(['Samsung', 'Kodak', 'Sony', 'Canon', 'Olympus'], datum.brand) >= 0 ? datum.brand : 'Other brands'",
+      "as": "highlight"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "quantitative",
+      "scale": {
+        "domain": [
+          1998.8,
+          2007.2
+        ],
+        "nice": false
+      },
+      "axis": {
+        "format": "d",
+        "title": null,
+        "grid": false,
+        "labelAngle": 0,
+        "values": [
+          1999,
+          2000,
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007
+        ]
+      }
+    },
+    "y": {
+      "field": "rank",
+      "type": "quantitative",
+      "scale": {
+        "domain": [
+          0.6,
+          10.4
+        ],
+        "reverse": true,
+        "nice": false
+      },
+      "axis": {
+        "title": "Rank",
+        "format": "d",
+        "grid": false,
+        "values": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      }
+    },
+    "detail": {
+      "field": "brand",
+      "type": "nominal"
+    },
+    "color": {
+      "field": "highlight",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "Samsung",
+          "Kodak",
+          "Olympus",
+          "Sony",
+          "Canon",
+          "Other brands"
+        ],
+        "range": [
+          "#e87ba4",
+          "#1baf7a",
+          "#6250d6",
+          "#a79ff0",
+          "#2b2075",
+          "#d8d6d0"
+        ]
+      },
+      "legend": null
+    },
+    "opacity": {
+      "condition": {
+        "param": "pick",
+        "empty": true,
+        "value": 1
+      },
+      "value": 0.15
+    }
+  },
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "pick",
+          "select": {
+            "type": "point",
+            "fields": [
+              "brand"
+            ],
+            "on": "click",
+            "clear": "dblclick"
+          }
+        }
+      ],
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3,
+        "interpolate": "linear"
+      }
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "size": 70
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "brand",
+            "type": "nominal",
+            "title": "Brand"
+          },
+          {
+            "field": "year",
+            "type": "quantitative",
+            "title": "Year",
+            "format": "d"
+          },
+          {
+            "field": "rank",
+            "type": "quantitative",
+            "title": "Rank"
+          },
+          {
+            "field": "models",
+            "type": "quantitative",
+            "title": "Models released"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.year == 2007"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "fontSize": 12,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "text": {
+          "field": "brand",
+          "type": "nominal"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.highlight == 'Other brands'",
+            "value": "#8a8880"
+          },
+          "field": "highlight",
+          "type": "nominal",
+          "legend": null
+        }
+      }
+    }
+  ],
+  "background": "transparent"
+}

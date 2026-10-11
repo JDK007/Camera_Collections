@@ -32,7 +32,7 @@
       "title": "Years each brand released digital cameras",
       "width": 495,
       "height": {
-        "step": 20
+        "step": 26
       },
       "data": {
         "url": "data/cameras_1000_specs_1994-2007.csv",
@@ -90,7 +90,7 @@
       "mark": {
         "type": "bar",
         "cornerRadius": 3,
-        "height": 13
+        "height": 20
       },
       "encoding": {
         "y": {
@@ -194,7 +194,7 @@
       "title": "Share of Australia's camera imports, 2025",
       "width": 185,
       "height": {
-        "step": 34
+        "step": 44
       },
       "data": {
         "url": "data/comtrade_au_camera_imports_2025.json",
@@ -291,7 +291,7 @@
           "mark": {
             "type": "bar",
             "cornerRadiusEnd": 3,
-            "height": 20
+            "height": 30
           },
           "encoding": {
             "color": {
@@ -353,5 +353,6 @@
     "scale": {
       "color": "independent"
     }
-  }
+  },
+  "background": "transparent"
 }

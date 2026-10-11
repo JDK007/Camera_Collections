@@ -144,7 +144,7 @@
       ],
       "mark": {
         "type": "rect",
-        "stroke": "white",
+        "stroke": "#faf7f2",
         "strokeWidth": 2,
         "cornerRadius": 2
       },
@@ -229,5 +229,6 @@
         ]
       }
     }
-  ]
+  ],
+  "background": "transparent"
 }
