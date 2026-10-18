@@ -12,3 +12,12 @@ vegaEmbed("#brand_lifespans", "specs/brand_lifespans.vg.json", { "actions": fals
 
 vegaEmbed("#brand_ranks", "specs/brand_ranks.vg.json", { "actions": false })
   .catch(console.error);
+
+vegaEmbed("#camera_types", "specs/camera_types.vg.json", { "actions": false })
+  .catch(console.error);
+
+vegaEmbed("#dslr_mirrorless", "specs/dslr_mirrorless.vg.json", { "actions": false })
+  .catch(console.error);
+
+vegaEmbed("#comeback", "specs/comeback.vg.json", { "actions": false })
+  .catch(console.error);

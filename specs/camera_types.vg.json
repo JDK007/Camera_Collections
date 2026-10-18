@@ -1,0 +1,300 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Digital camera shipments by type, 1999 to 2025, shown as a stream graph (CIPA).",
+  "config": {
+    "font": "Open Sans",
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "anchor": "start",
+      "fontSize": 13,
+      "fontWeight": "normal",
+      "color": "#52514e"
+    },
+    "axis": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "gridColor": "#e8e7e4",
+      "domainColor": "#c3c2b7",
+      "tickColor": "#c3c2b7"
+    }
+  },
+  "background": "transparent",
+  "title": "Digital cameras shipped worldwide by major makers, by type (millions)",
+  "width": 845,
+  "height": 340,
+  "layer": [
+    {
+      "data": {
+        "url": "data/cipa_digital_by_type_1999-2025.csv",
+        "format": {
+          "parse": {
+            "year": "number",
+            "compact_thousand_units": "number",
+            "interchangeable_thousand_units": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "calculate": "datum.compact_thousand_units / 1000",
+          "as": "Compact"
+        },
+        {
+          "calculate": "isValid(datum.interchangeable_thousand_units) ? datum.interchangeable_thousand_units / 1000 : 0",
+          "as": "Interchangeable-lens"
+        },
+        {
+          "fold": [
+            "Compact",
+            "Interchangeable-lens"
+          ],
+          "as": [
+            "camera_type",
+            "shipped_millions"
+          ]
+        }
+      ],
+      "mark": {
+        "type": "area",
+        "interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "title": null,
+          "scale": {
+            "domain": [
+              1999,
+              2025
+            ]
+          },
+          "axis": {
+            "format": "d",
+            "values": [
+              1999,
+              2005,
+              2010,
+              2015,
+              2020,
+              2025
+            ],
+            "grid": false
+          }
+        },
+        "y": {
+          "field": "shipped_millions",
+          "type": "quantitative",
+          "stack": "center",
+          "scale": {
+            "domain": [
+              0,
+              138
+            ]
+          },
+          "axis": null
+        },
+        "color": {
+          "field": "camera_type",
+          "type": "nominal",
+          "legend": null,
+          "scale": {
+            "domain": [
+              "Compact",
+              "Interchangeable-lens"
+            ],
+            "range": [
+              "#9cc0ec",
+              "#2a78d6"
+            ]
+          }
+        },
+        "order": {
+          "field": "camera_type",
+          "sort": "descending"
+        },
+        "tooltip": [
+          {
+            "field": "year",
+            "type": "quantitative",
+            "title": "Year",
+            "format": "d"
+          },
+          {
+            "field": "camera_type",
+            "type": "nominal",
+            "title": "Type"
+          },
+          {
+            "field": "shipped_millions",
+            "type": "quantitative",
+            "title": "Shipped (millions)",
+            "format": ".1f"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": 2003.4,
+            "y": 64,
+            "label": "Compact cameras",
+            "colour": "#1a4f8f"
+          },
+          {
+            "year": 2014.6,
+            "y": 36,
+            "label": "Interchangeable-lens cameras",
+            "colour": "#2a78d6"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 13,
+        "fontWeight": 600,
+        "align": "left",
+        "baseline": "middle"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              1999,
+              2025
+            ]
+          }
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative",
+          "stack": null,
+          "scale": {
+            "domain": [
+              0,
+              138
+            ]
+          }
+        },
+        "text": {
+          "field": "label"
+        },
+        "color": {
+          "field": "colour",
+          "type": "nominal",
+          "scale": null
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": 2010,
+            "y1": 122.5,
+            "y2": 127
+          },
+          {
+            "year": 2018,
+            "y1": 71.5,
+            "y2": 90
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "color": "#8a8880",
+        "strokeDash": [
+          3,
+          3
+        ]
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              1999,
+              2025
+            ]
+          }
+        },
+        "y": {
+          "field": "y1",
+          "type": "quantitative",
+          "stack": null,
+          "scale": {
+            "domain": [
+              0,
+              138
+            ]
+          }
+        },
+        "y2": {
+          "field": "y2"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": 2010,
+            "y": 131,
+            "label": "2010: 121 million cameras shipped, the all-time peak"
+          },
+          {
+            "year": 2018,
+            "y": 100,
+            "label": "2018: interchangeable-lens cameras"
+          },
+          {
+            "year": 2018,
+            "y": 94.5,
+            "label": "outsell compacts for the first time"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 12,
+        "color": "#52514e",
+        "baseline": "middle"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              1999,
+              2025
+            ]
+          }
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative",
+          "stack": null,
+          "scale": {
+            "domain": [
+              0,
+              138
+            ]
+          }
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    }
+  ]
+}

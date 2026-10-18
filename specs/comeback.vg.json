@@ -1,0 +1,649 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Global digital camera shipments 2008 to 2025 (CIPA) next to the change since 2022 in global shipments and in the value of Australia's camera imports (UN Comtrade).",
+  "config": {
+    "font": "Open Sans",
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "anchor": "start",
+      "fontSize": 13,
+      "fontWeight": "normal",
+      "color": "#52514e"
+    },
+    "axis": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "gridColor": "#e8e7e4",
+      "domainColor": "#c3c2b7",
+      "tickColor": "#c3c2b7"
+    }
+  },
+  "background": "transparent",
+  "hconcat": [
+    {
+      "title": "Digital cameras shipped worldwide by major makers (millions)",
+      "width": 445,
+      "height": 300,
+      "layer": [
+        {
+          "data": {
+            "values": [
+              {
+                "a": 2022,
+                "b": 2025
+              }
+            ]
+          },
+          "mark": {
+            "type": "rect",
+            "color": "#ece7de",
+            "opacity": 0.9
+          },
+          "encoding": {
+            "x": {
+              "field": "a",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  2008,
+                  2025
+                ]
+              }
+            },
+            "x2": {
+              "field": "b"
+            }
+          }
+        },
+        {
+          "data": {
+            "url": "data/cipa_digital_by_type_1999-2025.csv",
+            "format": {
+              "parse": {
+                "year": "number",
+                "total_thousand_units": "number"
+              }
+            }
+          },
+          "transform": [
+            {
+              "filter": "datum.year >= 2008"
+            },
+            {
+              "calculate": "datum.total_thousand_units/1000",
+              "as": "m"
+            }
+          ],
+          "mark": {
+            "type": "area",
+            "color": "#2a78d6",
+            "opacity": 0.12,
+            "line": {
+              "color": "#2a78d6",
+              "strokeWidth": 2.5
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "year",
+              "type": "quantitative",
+              "title": null,
+              "scale": {
+                "domain": [
+                  2008,
+                  2025
+                ]
+              },
+              "axis": {
+                "format": "d",
+                "values": [
+                  2008,
+                  2010,
+                  2013,
+                  2016,
+                  2019,
+                  2022,
+                  2025
+                ],
+                "grid": false
+              }
+            },
+            "y": {
+              "field": "m",
+              "type": "quantitative",
+              "title": null,
+              "scale": {
+                "domain": [
+                  0,
+                  130
+                ]
+              },
+              "axis": {
+                "values": [
+                  0,
+                  25,
+                  50,
+                  75,
+                  100,
+                  125
+                ],
+                "tickCount": 6
+              }
+            },
+            "tooltip": [
+              {
+                "field": "year",
+                "type": "quantitative",
+                "format": "d",
+                "title": "Year"
+              },
+              {
+                "field": "m",
+                "type": "quantitative",
+                "format": ".1f",
+                "title": "Shipped (millions)"
+              }
+            ]
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "year": 2010,
+                "m": 121.5,
+                "t": "Peak: 121.5 million (2010)"
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#52514e",
+            "align": "left",
+            "dx": 8,
+            "dy": -4
+          },
+          "encoding": {
+            "x": {
+              "field": "year",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  2008,
+                  2025
+                ]
+              }
+            },
+            "y": {
+              "field": "m",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  0,
+                  130
+                ]
+              }
+            },
+            "text": {
+              "field": "t"
+            }
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "year": 2025,
+                "m": 9.4,
+                "t": "9.4 million (2025)"
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#52514e",
+            "align": "right",
+            "dx": 0,
+            "dy": -14
+          },
+          "encoding": {
+            "x": {
+              "field": "year",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  2008,
+                  2025
+                ]
+              }
+            },
+            "y": {
+              "field": "m",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  0,
+                  130
+                ]
+              }
+            },
+            "text": {
+              "field": "t"
+            }
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "year": 2023.5,
+                "m": 118,
+                "t": "Since 2022"
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#52514e",
+            "align": "center",
+            "dx": 0,
+            "dy": 0
+          },
+          "encoding": {
+            "x": {
+              "field": "year",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  2008,
+                  2025
+                ]
+              }
+            },
+            "y": {
+              "field": "m",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  0,
+                  130
+                ]
+              }
+            },
+            "text": {
+              "field": "t"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Change since 2022 (%)",
+      "width": 210,
+      "height": 300,
+      "layer": [
+        {
+          "data": {
+            "values": [
+              {
+                "y": 0
+              }
+            ]
+          },
+          "mark": {
+            "type": "rule",
+            "color": "#8a8880"
+          },
+          "encoding": {
+            "y": {
+              "field": "y",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  -10,
+                  35
+                ]
+              }
+            }
+          }
+        },
+        {
+          "data": {
+            "url": "data/cipa_digital_by_type_1999-2025.csv",
+            "format": {
+              "parse": {
+                "year": "number",
+                "total_thousand_units": "number"
+              }
+            }
+          },
+          "transform": [
+            {
+              "filter": "datum.year >= 2022"
+            },
+            {
+              "window": [
+                {
+                  "op": "first_value",
+                  "field": "total_thousand_units",
+                  "as": "base"
+                }
+              ],
+              "sort": [
+                {
+                  "field": "year"
+                }
+              ],
+              "frame": [
+                null,
+                null
+              ]
+            },
+            {
+              "calculate": "100*(datum['total_thousand_units']/datum.base-1)",
+              "as": "pct"
+            },
+            {
+              "calculate": "\"Cameras shipped worldwide\"",
+              "as": "series"
+            }
+          ],
+          "layer": [
+            {
+              "mark": {
+                "type": "line",
+                "color": "#2a78d6",
+                "strokeWidth": 2.5,
+                "point": {
+                  "filled": true,
+                  "size": 50,
+                  "color": "#2a78d6"
+                }
+              },
+              "encoding": {
+                "x": {
+                  "field": "year",
+                  "type": "ordinal",
+                  "title": null,
+                  "axis": {
+                    "labelAngle": 0
+                  }
+                },
+                "y": {
+                  "field": "pct",
+                  "type": "quantitative",
+                  "title": null,
+                  "scale": {
+                    "domain": [
+                      -10,
+                      35
+                    ]
+                  },
+                  "axis": {
+                    "values": [
+                      -10,
+                      0,
+                      10,
+                      20,
+                      30
+                    ],
+                    "labelExpr": "(datum.value > 0 ? '+' : '') + datum.value + '%'"
+                  }
+                },
+                "tooltip": [
+                  {
+                    "field": "series",
+                    "title": "Measure"
+                  },
+                  {
+                    "field": "year",
+                    "type": "ordinal",
+                    "title": "Year"
+                  },
+                  {
+                    "field": "pct",
+                    "type": "quantitative",
+                    "format": "+.1f",
+                    "title": "Change since 2022 (%)"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "data": {
+            "url": "data/comtrade_au_camera_imports_2022-2025.csv",
+            "format": {
+              "parse": {
+                "year": "number",
+                "partner_code": "number",
+                "value_usd": "number"
+              }
+            }
+          },
+          "transform": [
+            {
+              "filter": "datum.partner_code == 0"
+            },
+            {
+              "window": [
+                {
+                  "op": "first_value",
+                  "field": "value_usd",
+                  "as": "base"
+                }
+              ],
+              "sort": [
+                {
+                  "field": "year"
+                }
+              ],
+              "frame": [
+                null,
+                null
+              ]
+            },
+            {
+              "calculate": "100*(datum['value_usd']/datum.base-1)",
+              "as": "pct"
+            },
+            {
+              "calculate": "\"Value of Australia's camera imports\"",
+              "as": "series"
+            }
+          ],
+          "layer": [
+            {
+              "mark": {
+                "type": "line",
+                "color": "#9b2c2c",
+                "strokeWidth": 2.5,
+                "point": {
+                  "filled": true,
+                  "size": 50,
+                  "color": "#9b2c2c"
+                }
+              },
+              "encoding": {
+                "x": {
+                  "field": "year",
+                  "type": "ordinal",
+                  "title": null,
+                  "axis": {
+                    "labelAngle": 0
+                  }
+                },
+                "y": {
+                  "field": "pct",
+                  "type": "quantitative",
+                  "title": null,
+                  "scale": {
+                    "domain": [
+                      -10,
+                      35
+                    ]
+                  },
+                  "axis": {
+                    "values": [
+                      -10,
+                      0,
+                      10,
+                      20,
+                      30
+                    ],
+                    "labelExpr": "(datum.value > 0 ? '+' : '') + datum.value + '%'"
+                  }
+                },
+                "tooltip": [
+                  {
+                    "field": "series",
+                    "title": "Measure"
+                  },
+                  {
+                    "field": "year",
+                    "type": "ordinal",
+                    "title": "Year"
+                  },
+                  {
+                    "field": "pct",
+                    "type": "quantitative",
+                    "format": "+.1f",
+                    "title": "Change since 2022 (%)"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "year": 2022,
+                "pct": 33,
+                "t": "Value of Australia's",
+                "t2": "camera imports: +30%",
+                "c": "#9b2c2c"
+              },
+              {
+                "year": 2024,
+                "pct": -4,
+                "t": "Cameras shipped",
+                "t2": "worldwide: +18%",
+                "c": "#2a78d6"
+              }
+            ]
+          },
+          "layer": [
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "dx": -6,
+                "dy": -8,
+                "fontSize": 12,
+                "fontWeight": 600
+              },
+              "encoding": {
+                "x": {
+                  "field": "year",
+                  "type": "ordinal",
+                  "title": null,
+                  "axis": {
+                    "labelAngle": 0
+                  }
+                },
+                "y": {
+                  "field": "pct",
+                  "type": "quantitative",
+                  "title": null,
+                  "scale": {
+                    "domain": [
+                      -10,
+                      35
+                    ]
+                  },
+                  "axis": {
+                    "values": [
+                      -10,
+                      0,
+                      10,
+                      20,
+                      30
+                    ],
+                    "labelExpr": "(datum.value > 0 ? '+' : '') + datum.value + '%'"
+                  }
+                },
+                "text": {
+                  "field": "t"
+                },
+                "color": {
+                  "field": "c",
+                  "type": "nominal",
+                  "scale": null
+                }
+              }
+            },
+            {
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "dx": -6,
+                "dy": 6,
+                "fontSize": 12,
+                "fontWeight": 600
+              },
+              "encoding": {
+                "x": {
+                  "field": "year",
+                  "type": "ordinal",
+                  "title": null,
+                  "axis": {
+                    "labelAngle": 0
+                  }
+                },
+                "y": {
+                  "field": "pct",
+                  "type": "quantitative",
+                  "title": null,
+                  "scale": {
+                    "domain": [
+                      -10,
+                      35
+                    ]
+                  },
+                  "axis": {
+                    "values": [
+                      -10,
+                      0,
+                      10,
+                      20,
+                      30
+                    ],
+                    "labelExpr": "(datum.value > 0 ? '+' : '') + datum.value + '%'"
+                  }
+                },
+                "text": {
+                  "field": "t2"
+                },
+                "color": {
+                  "field": "c",
+                  "type": "nominal",
+                  "scale": null
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "spacing": 50
+}
