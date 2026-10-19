@@ -1,0 +1,735 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Flow map of the ten countries Australia imported the most camera value from in 2025 (UN Comtrade): line width shows value, colour shows the average value per camera.",
+  "config": {
+    "font": "Open Sans",
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "anchor": "start",
+      "fontSize": 13,
+      "fontWeight": "normal",
+      "color": "#52514e"
+    },
+    "axis": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "gridColor": "#e8e7e4",
+      "domainColor": "#c3c2b7",
+      "tickColor": "#c3c2b7"
+    },
+    "legend": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "labelFontSize": 12,
+      "titleFontSize": 12
+    }
+  },
+  "background": "transparent",
+  "title": "Australia's ten biggest camera suppliers, 2025: line width shows value, colour shows value per camera",
+  "width": 845,
+  "height": 430,
+  "projection": {
+    "type": "equalEarth",
+    "rotate": [
+      -150,
+      0,
+      0
+    ]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/world-110m.json",
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.id != '010'"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e4dfd4",
+        "stroke": "#faf7f2",
+        "strokeWidth": 0.5
+      }
+    },
+    {
+      "data": {
+        "url": "data/world-110m.json",
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.id == '036'"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "fill": "#9b2c2c",
+        "stroke": "#faf7f2",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "tooltip": {
+          "value": "Australia"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/comtrade_au_camera_imports_2022-2025.csv",
+        "format": {
+          "parse": {
+            "year": "number",
+            "partner_code": "number",
+            "value_usd": "number",
+            "qty_units": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.year == 2025"
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "max",
+              "field": "value_usd",
+              "as": "world_usd"
+            }
+          ]
+        },
+        {
+          "filter": "datum.partner_code != 0 && datum.partner_code != 36"
+        },
+        {
+          "calculate": "100 * datum.value_usd / datum.world_usd",
+          "as": "share"
+        },
+        {
+          "calculate": "datum.value_usd / 0.6449 / 1000000",
+          "as": "value_aud_m"
+        },
+        {
+          "window": [
+            {
+              "op": "row_number",
+              "as": "rank"
+            }
+          ],
+          "sort": [
+            {
+              "field": "value_usd",
+              "order": "descending"
+            }
+          ]
+        },
+        {
+          "filter": "datum.rank <= 10"
+        },
+        {
+          "lookup": "partner_code",
+          "from": {
+            "data": {
+              "values": [
+                {
+                  "partner_code": 156,
+                  "name": "China",
+                  "lon": 104,
+                  "lat": 35,
+                  "dx": -8,
+                  "dy": 0,
+                  "al": "right"
+                },
+                {
+                  "partner_code": 704,
+                  "name": "Vietnam",
+                  "lon": 106,
+                  "lat": 16,
+                  "dx": 8,
+                  "dy": -6,
+                  "al": "left"
+                },
+                {
+                  "partner_code": 392,
+                  "name": "Japan",
+                  "lon": 138.5,
+                  "lat": 36.5,
+                  "dx": 8,
+                  "dy": -6,
+                  "al": "left"
+                },
+                {
+                  "partner_code": 616,
+                  "name": "Poland",
+                  "lon": 19,
+                  "lat": 52,
+                  "dx": 0,
+                  "dy": -12,
+                  "al": "center"
+                },
+                {
+                  "partner_code": 410,
+                  "name": "South Korea",
+                  "lon": 127.8,
+                  "lat": 36.4,
+                  "dx": -4,
+                  "dy": -14,
+                  "al": "right"
+                },
+                {
+                  "partner_code": 842,
+                  "name": "USA",
+                  "lon": -98,
+                  "lat": 39,
+                  "dx": 0,
+                  "dy": -12,
+                  "al": "center"
+                },
+                {
+                  "partner_code": 764,
+                  "name": "Thailand",
+                  "lon": 101,
+                  "lat": 15,
+                  "dx": -8,
+                  "dy": 4,
+                  "al": "right"
+                },
+                {
+                  "partner_code": 490,
+                  "name": "Taiwan",
+                  "lon": 121,
+                  "lat": 23.7,
+                  "dx": 8,
+                  "dy": 4,
+                  "al": "left"
+                },
+                {
+                  "partner_code": 276,
+                  "name": "Germany",
+                  "lon": 10.4,
+                  "lat": 51,
+                  "dx": -8,
+                  "dy": 4,
+                  "al": "right"
+                },
+                {
+                  "partner_code": 484,
+                  "name": "Mexico",
+                  "lon": -102,
+                  "lat": 23.6,
+                  "dx": 0,
+                  "dy": 14,
+                  "al": "center"
+                }
+              ]
+            },
+            "key": "partner_code",
+            "fields": [
+              "name",
+              "lon",
+              "lat",
+              "dx",
+              "dy",
+              "al"
+            ]
+          }
+        },
+        {
+          "calculate": "datum.value_usd / datum.qty_units / 0.6449",
+          "as": "aud_per_camera"
+        },
+        {
+          "calculate": "134",
+          "as": "to_lon"
+        },
+        {
+          "calculate": "-25",
+          "as": "to_lat"
+        },
+        {
+          "calculate": "datum.name + ' A$' + format(datum.value_aud_m, '.0f') + 'm'",
+          "as": "label"
+        },
+        {
+          "calculate": "datum.aud_per_camera < 250 ? 'Under A$250' : datum.aud_per_camera < 750 ? 'A$250 to A$750' : datum.aud_per_camera < 1250 ? 'A$750 to A$1,250' : 'A$1,250 or more'",
+          "as": "per_class"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rule",
+            "strokeCap": "round",
+            "opacity": 0.9
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "longitude2": {
+              "field": "to_lon"
+            },
+            "latitude2": {
+              "field": "to_lat"
+            },
+            "size": {
+              "field": "value_aud_m",
+              "type": "quantitative",
+              "scale": {
+                "range": [
+                  1.5,
+                  16
+                ]
+              },
+              "legend": null
+            },
+            "color": {
+              "field": "per_class",
+              "type": "ordinal",
+              "scale": {
+                "domain": [
+                  "Under A$250",
+                  "A$250 to A$750",
+                  "A$750 to A$1,250",
+                  "A$1,250 or more"
+                ],
+                "range": [
+                  "#9ecae1",
+                  "#4292c6",
+                  "#2171b5",
+                  "#08306b"
+                ]
+              },
+              "legend": {
+                "title": "Average value per camera",
+                "symbolType": "stroke",
+                "symbolStrokeWidth": 4,
+                "orient": "none",
+                "legendX": 560,
+                "legendY": 300
+              }
+            },
+            "tooltip": [
+              {
+                "field": "name",
+                "type": "nominal",
+                "title": "From"
+              },
+              {
+                "field": "value_aud_m",
+                "type": "quantitative",
+                "title": "Value (A$ million)",
+                "format": ",.1f"
+              },
+              {
+                "field": "share",
+                "type": "quantitative",
+                "title": "Share of imports (%)",
+                "format": ".1f"
+              },
+              {
+                "field": "qty_units",
+                "type": "quantitative",
+                "title": "Cameras",
+                "format": ","
+              },
+              {
+                "field": "aud_per_camera",
+                "type": "quantitative",
+                "title": "Average value per camera (A$)",
+                "format": ",.0f"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "circle",
+            "size": 40,
+            "color": "#2b2a28"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "tooltip": [
+              {
+                "field": "name",
+                "type": "nominal",
+                "title": "From"
+              },
+              {
+                "field": "value_aud_m",
+                "type": "quantitative",
+                "title": "Value (A$ million)",
+                "format": ",.1f"
+              },
+              {
+                "field": "share",
+                "type": "quantitative",
+                "title": "Share of imports (%)",
+                "format": ".1f"
+              },
+              {
+                "field": "qty_units",
+                "type": "quantitative",
+                "title": "Cameras",
+                "format": ","
+              },
+              {
+                "field": "aud_per_camera",
+                "type": "quantitative",
+                "title": "Average value per camera (A$)",
+                "format": ",.0f"
+              }
+            ]
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.partner_code == 156"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": -8,
+            "dy": 0,
+            "align": "right"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.partner_code == 704"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": 8,
+            "dy": -6,
+            "align": "left"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.partner_code == 392"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": 8,
+            "dy": -6,
+            "align": "left"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.partner_code == 616"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": 0,
+            "dy": -12,
+            "align": "center"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.partner_code == 410"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": -4,
+            "dy": -14,
+            "align": "right"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.partner_code == 842"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": 0,
+            "dy": -12,
+            "align": "center"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.partner_code == 764"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": -8,
+            "dy": 4,
+            "align": "right"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.partner_code == 490"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": 8,
+            "dy": 4,
+            "align": "left"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.partner_code == 276"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": -8,
+            "dy": 4,
+            "align": "right"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.partner_code == 484"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": 0,
+            "dy": 14,
+            "align": "center"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "lon": 134,
+            "lat": -25,
+            "t": "Australia"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": "#ffffff",
+        "dy": 10
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "t"
+        }
+      }
+    }
+  ]
+}

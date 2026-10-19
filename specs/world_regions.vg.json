@@ -1,0 +1,557 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Proportional symbol map of digital cameras shipped by CIPA members to each world region in 2025, coloured by change from 2024 (CIPA), with the change in the value of Australia's camera imports (UN Comtrade).",
+  "config": {
+    "font": "Open Sans",
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "anchor": "start",
+      "fontSize": 13,
+      "fontWeight": "normal",
+      "color": "#52514e"
+    },
+    "axis": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "gridColor": "#e8e7e4",
+      "domainColor": "#c3c2b7",
+      "tickColor": "#c3c2b7"
+    },
+    "legend": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "labelFontSize": 12,
+      "titleFontSize": 12
+    }
+  },
+  "background": "transparent",
+  "title": "Cameras shipped to each world region in 2025: circle size shows cameras shipped, colour shows change from 2024",
+  "width": 845,
+  "height": 430,
+  "projection": {
+    "type": "equalEarth",
+    "rotate": [
+      -150,
+      0,
+      0
+    ]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/world-110m.json",
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.id != '010'"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e4dfd4",
+        "stroke": "#faf7f2",
+        "strokeWidth": 0.5
+      }
+    },
+    {
+      "data": {
+        "url": "data/world-110m.json",
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.id == '036'"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "fill": "#9b2c2c",
+        "stroke": "#faf7f2",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "tooltip": {
+          "value": "Australia"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/cipa_shipments_by_region_2025.csv",
+        "format": {
+          "parse": {
+            "units_2025": "number",
+            "change_vs_2024_pct": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "lookup": "region",
+          "from": {
+            "data": {
+              "values": [
+                {
+                  "region": "Japan",
+                  "lon": 138.5,
+                  "lat": 36.5,
+                  "short": "Japan",
+                  "dx": 24,
+                  "dy": 0,
+                  "al": "left"
+                },
+                {
+                  "region": "China",
+                  "lon": 104,
+                  "lat": 35,
+                  "short": "China",
+                  "dx": -34,
+                  "dy": 0,
+                  "al": "right"
+                },
+                {
+                  "region": "Asia (excl. Japan & China)",
+                  "lon": 92,
+                  "lat": 15,
+                  "short": "Rest of Asia",
+                  "dx": -28,
+                  "dy": 0,
+                  "al": "right"
+                },
+                {
+                  "region": "Europe",
+                  "lon": 15,
+                  "lat": 50,
+                  "short": "Europe",
+                  "dx": 0,
+                  "dy": -38,
+                  "al": "center"
+                },
+                {
+                  "region": "Americas",
+                  "lon": -95,
+                  "lat": 20,
+                  "short": "Americas",
+                  "dx": 0,
+                  "dy": -40,
+                  "al": "center"
+                },
+                {
+                  "region": "Other areas",
+                  "lon": 22,
+                  "lat": 3,
+                  "short": "Other areas",
+                  "dx": 18,
+                  "dy": 0,
+                  "al": "left"
+                }
+              ]
+            },
+            "key": "region",
+            "fields": [
+              "lon",
+              "lat",
+              "short",
+              "dx",
+              "dy",
+              "al"
+            ]
+          }
+        },
+        {
+          "calculate": "datum.units_2025 / 1000000",
+          "as": "millions"
+        },
+        {
+          "calculate": "datum.change_vs_2024_pct",
+          "as": "change"
+        },
+        {
+          "calculate": "datum.short + ': ' + format(datum.millions, '.1f') + 'M (' + (datum.change > 0 ? '+' : '') + format(datum.change, '.1f') + '%)'",
+          "as": "label"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "circle",
+            "opacity": 0.9,
+            "stroke": "#faf7f2",
+            "strokeWidth": 1.5
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "size": {
+              "field": "millions",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  0,
+                  2.5
+                ],
+                "range": [
+                  0,
+                  3000
+                ]
+              },
+              "legend": {
+                "title": "Cameras shipped (millions)",
+                "orient": "none",
+                "legendX": 545,
+                "legendY": 265,
+                "values": [
+                  0.5,
+                  1,
+                  2
+                ],
+                "symbolFillColor": "#d6d4ce",
+                "symbolStrokeColor": "#8a8880"
+              }
+            },
+            "color": {
+              "field": "change",
+              "type": "quantitative",
+              "scale": {
+                "domainMid": 0,
+                "domain": [
+                  -30,
+                  30
+                ],
+                "clamp": true,
+                "scheme": "brownbluegreen"
+              },
+              "legend": {
+                "title": "Change from 2024 (%)",
+                "orient": "bottom-left",
+                "direction": "horizontal",
+                "gradientLength": 200,
+                "values": [
+                  -30,
+                  -15,
+                  0,
+                  15,
+                  30
+                ],
+                "labelExpr": "(datum.value > 0 ? '+' : '') + datum.value + '%'"
+              }
+            },
+            "tooltip": [
+              {
+                "field": "region",
+                "type": "nominal",
+                "title": "Region"
+              },
+              {
+                "field": "millions",
+                "type": "quantitative",
+                "title": "Cameras shipped (millions)",
+                "format": ".2f"
+              },
+              {
+                "field": "change",
+                "type": "quantitative",
+                "title": "Change from 2024 (%)",
+                "format": "+.1f"
+              }
+            ]
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.region == 'Japan'"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": 24,
+            "dy": 0,
+            "align": "left"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.region == 'China'"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": -34,
+            "dy": 0,
+            "align": "right"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.region == 'Asia (excl. Japan & China)'"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": -28,
+            "dy": 0,
+            "align": "right"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.region == 'Europe'"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": 0,
+            "dy": -38,
+            "align": "center"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.region == 'Americas'"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": 0,
+            "dy": -40,
+            "align": "center"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.region == 'Other areas'"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "color": "#2b2a28",
+            "baseline": "middle",
+            "dx": 18,
+            "dy": 0,
+            "align": "left"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "data": {
+        "url": "data/comtrade_au_camera_imports_2022-2025.csv",
+        "format": {
+          "parse": {
+            "year": "number",
+            "partner_code": "number",
+            "value_usd": "number",
+            "qty_units": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.partner_code == 0"
+        },
+        {
+          "window": [
+            {
+              "op": "lag",
+              "field": "value_usd",
+              "as": "prev"
+            }
+          ],
+          "sort": [
+            {
+              "field": "year"
+            }
+          ]
+        },
+        {
+          "filter": "datum.year == 2025"
+        },
+        {
+          "calculate": "100 * (datum.value_usd / datum.prev - 1)",
+          "as": "change"
+        },
+        {
+          "calculate": "134",
+          "as": "lon"
+        },
+        {
+          "calculate": "-25",
+          "as": "lat"
+        },
+        {
+          "calculate": "'Australia: camera imports +' + format(datum.change, '.0f') + '% in value'",
+          "as": "label"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "point",
+            "shape": "diamond",
+            "filled": true,
+            "size": 260,
+            "color": "#ffffff",
+            "stroke": "#2b2a28",
+            "strokeWidth": 1.5
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "tooltip": [
+              {
+                "field": "label",
+                "type": "nominal",
+                "title": "Australia"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "fontWeight": 600,
+            "color": "#9b2c2c",
+            "dy": 62
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

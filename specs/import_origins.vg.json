@@ -1,0 +1,568 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Choropleth of each country's share of the value of Australia's camera imports in 2025 (UN Comtrade), with circles on the home countries of camera brands (brand headquarters list).",
+  "config": {
+    "font": "Open Sans",
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "anchor": "start",
+      "fontSize": 13,
+      "fontWeight": "normal",
+      "color": "#52514e"
+    },
+    "axis": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "gridColor": "#e8e7e4",
+      "domainColor": "#c3c2b7",
+      "tickColor": "#c3c2b7"
+    },
+    "legend": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "labelFontSize": 12,
+      "titleFontSize": 12
+    }
+  },
+  "background": "transparent",
+  "title": "Share of the value of Australia's camera imports by country of origin, 2025",
+  "width": 845,
+  "height": 430,
+  "projection": {
+    "type": "equalEarth",
+    "rotate": [
+      -150,
+      0,
+      0
+    ]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/world-110m.json",
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.id != '010'"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e4dfd4",
+        "stroke": "#faf7f2",
+        "strokeWidth": 0.5
+      }
+    },
+    {
+      "data": {
+        "url": "data/comtrade_au_camera_imports_2022-2025.csv",
+        "format": {
+          "parse": {
+            "year": "number",
+            "partner_code": "number",
+            "value_usd": "number",
+            "qty_units": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.year == 2025"
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "max",
+              "field": "value_usd",
+              "as": "world_usd"
+            }
+          ]
+        },
+        {
+          "filter": "datum.partner_code != 0 && datum.partner_code != 36"
+        },
+        {
+          "calculate": "100 * datum.value_usd / datum.world_usd",
+          "as": "share"
+        },
+        {
+          "calculate": "datum.value_usd / 0.6449 / 1000000",
+          "as": "value_aud_m"
+        },
+        {
+          "calculate": "pad(toString(datum.partner_code == 842 ? 840 : datum.partner_code == 251 ? 250 : datum.partner_code == 490 ? 158 : datum.partner_code == 757 ? 756 : datum.partner_code == 699 ? 356 : datum.partner_code == 579 ? 578 : datum.partner_code), 3, '0', 'left')",
+          "as": "geo_id"
+        },
+        {
+          "lookup": "geo_id",
+          "from": {
+            "data": {
+              "url": "data/world-110m.json",
+              "format": {
+                "type": "topojson",
+                "feature": "countries"
+              }
+            },
+            "key": "id"
+          },
+          "as": "geo"
+        },
+        {
+          "calculate": "datum.share < 1 ? 'Under 1%' : datum.share < 2 ? '1% to 2%' : datum.share < 5 ? '2% to 5%' : datum.share < 10 ? '5% to 10%' : '10% or more'",
+          "as": "share_class"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "#faf7f2",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "shape": {
+          "field": "geo",
+          "type": "geojson"
+        },
+        "color": {
+          "field": "share_class",
+          "type": "ordinal",
+          "scale": {
+            "domain": [
+              "Under 1%",
+              "1% to 2%",
+              "2% to 5%",
+              "5% to 10%",
+              "10% or more"
+            ],
+            "range": [
+              "#deebf7",
+              "#9ecae1",
+              "#4292c6",
+              "#2171b5",
+              "#08306b"
+            ]
+          },
+          "legend": {
+            "title": "Share of imports",
+            "symbolType": "square",
+            "symbolSize": 180,
+            "orient": "none",
+            "legendX": 560,
+            "legendY": 285
+          }
+        },
+        "tooltip": [
+          {
+            "field": "partner",
+            "type": "nominal",
+            "title": "Country"
+          },
+          {
+            "field": "share",
+            "type": "quantitative",
+            "title": "Share of imports (%)",
+            "format": ".1f"
+          },
+          {
+            "field": "value_aud_m",
+            "type": "quantitative",
+            "title": "Value (A$ million)",
+            "format": ",.1f"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/world-110m.json",
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.id == '036'"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "fill": "#9b2c2c",
+        "stroke": "#faf7f2",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "tooltip": {
+          "value": "Australia"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/brand_countries.csv"
+      },
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "count",
+              "as": "brands"
+            }
+          ],
+          "groupby": [
+            "home_region"
+          ]
+        },
+        {
+          "lookup": "home_region",
+          "from": {
+            "data": {
+              "values": [
+                {
+                  "home_region": "Japan",
+                  "lon": 138.5,
+                  "lat": 36.5,
+                  "dx": 30,
+                  "dy": 4,
+                  "al": "left"
+                },
+                {
+                  "home_region": "USA",
+                  "lon": -98,
+                  "lat": 39,
+                  "dx": 0,
+                  "dy": -30,
+                  "al": "center"
+                },
+                {
+                  "home_region": "South Korea",
+                  "lon": 127.8,
+                  "lat": 36.4,
+                  "dx": -4,
+                  "dy": -26,
+                  "al": "right"
+                },
+                {
+                  "home_region": "Europe",
+                  "lon": 7.5,
+                  "lat": 50.8,
+                  "dx": 0,
+                  "dy": -22,
+                  "al": "center"
+                }
+              ]
+            },
+            "key": "home_region",
+            "fields": [
+              "lon",
+              "lat",
+              "dx",
+              "dy",
+              "al"
+            ]
+          }
+        },
+        {
+          "calculate": "datum.home_region + ': ' + datum.brands + (datum.brands == 1 ? ' camera brand' : ' camera brands')",
+          "as": "label"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "circle",
+            "fill": "#ffffff",
+            "fillOpacity": 0.25,
+            "strokeWidth": 2.5
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "size": {
+              "field": "brands",
+              "type": "quantitative",
+              "scale": {
+                "range": [
+                  60,
+                  900
+                ]
+              },
+              "legend": null
+            },
+            "stroke": {
+              "field": "home_region",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Japan",
+                  "South Korea",
+                  "USA",
+                  "Europe"
+                ],
+                "range": [
+                  "#6250d6",
+                  "#e87ba4",
+                  "#1baf7a",
+                  "#eda100"
+                ]
+              },
+              "legend": null
+            },
+            "tooltip": [
+              {
+                "field": "home_region",
+                "type": "nominal",
+                "title": "Brand home"
+              },
+              {
+                "field": "brands",
+                "type": "quantitative",
+                "title": "Camera brands in the 1000 Cameras list"
+              }
+            ]
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.home_region == 'Japan'"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "fontWeight": 700,
+            "baseline": "middle",
+            "dx": 30,
+            "dy": 4,
+            "align": "left"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            },
+            "color": {
+              "field": "home_region",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Japan",
+                  "South Korea",
+                  "USA",
+                  "Europe"
+                ],
+                "range": [
+                  "#4a3aa8",
+                  "#c4527f",
+                  "#13865d",
+                  "#a36f00"
+                ]
+              },
+              "legend": null
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.home_region == 'USA'"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "fontWeight": 700,
+            "baseline": "middle",
+            "dx": 0,
+            "dy": -30,
+            "align": "center"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            },
+            "color": {
+              "field": "home_region",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Japan",
+                  "South Korea",
+                  "USA",
+                  "Europe"
+                ],
+                "range": [
+                  "#4a3aa8",
+                  "#c4527f",
+                  "#13865d",
+                  "#a36f00"
+                ]
+              },
+              "legend": null
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.home_region == 'South Korea'"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "fontWeight": 700,
+            "baseline": "middle",
+            "dx": -4,
+            "dy": -26,
+            "align": "right"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            },
+            "color": {
+              "field": "home_region",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Japan",
+                  "South Korea",
+                  "USA",
+                  "Europe"
+                ],
+                "range": [
+                  "#4a3aa8",
+                  "#c4527f",
+                  "#13865d",
+                  "#a36f00"
+                ]
+              },
+              "legend": null
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.home_region == 'Europe'"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "fontWeight": 700,
+            "baseline": "middle",
+            "dx": 0,
+            "dy": -22,
+            "align": "center"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            },
+            "color": {
+              "field": "home_region",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Japan",
+                  "South Korea",
+                  "USA",
+                  "Europe"
+                ],
+                "range": [
+                  "#4a3aa8",
+                  "#c4527f",
+                  "#13865d",
+                  "#a36f00"
+                ]
+              },
+              "legend": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "lon": 134,
+            "lat": -25,
+            "t": "Australia"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 12,
+        "fontWeight": 600,
+        "color": "#ffffff"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "t"
+        }
+      }
+    }
+  ],
+  "resolve": {
+    "scale": {
+      "color": "independent"
+    }
+  }
+}
