@@ -7,11 +7,12 @@
       "stroke": null
     },
     "title": {
-      "anchor": "start",
+      "anchor": "middle",
       "fontSize": 13,
       "fontWeight": "normal",
       "color": "#52514e",
-      "frame": "group"
+      "frame": "group",
+      "offset": 12
     },
     "axis": {
       "labelColor": "#52514e",
@@ -24,6 +25,13 @@
     "axisY": {
       "minExtent": 80,
       "maxExtent": 80
+    },
+    "legend": {
+      "layout": {
+        "bottom": {
+          "anchor": "middle"
+        }
+      }
     }
   },
   "background": "transparent",
@@ -43,8 +51,8 @@
         "subtitleFontSize": 13,
         "subtitleColor": "#52514e"
       },
-      "width": 260,
-      "height": 260,
+      "width": 240,
+      "height": 240,
       "data": {
         "sequence": {
           "start": 0,
@@ -104,7 +112,7 @@
       ],
       "mark": {
         "type": "square",
-        "size": 400,
+        "size": 324,
         "opacity": 1
       },
       "encoding": {
@@ -175,8 +183,8 @@
         "subtitleFontSize": 13,
         "subtitleColor": "#52514e"
       },
-      "width": 260,
-      "height": 260,
+      "width": 240,
+      "height": 240,
       "data": {
         "sequence": {
           "start": 0,
@@ -236,7 +244,7 @@
       ],
       "mark": {
         "type": "square",
-        "size": 400,
+        "size": 324,
         "opacity": 1
       },
       "encoding": {
@@ -307,8 +315,8 @@
         "subtitleFontSize": 13,
         "subtitleColor": "#52514e"
       },
-      "width": 260,
-      "height": 260,
+      "width": 240,
+      "height": 240,
       "data": {
         "sequence": {
           "start": 0,
@@ -368,7 +376,7 @@
       ],
       "mark": {
         "type": "square",
-        "size": 400,
+        "size": 324,
         "opacity": 1
       },
       "encoding": {
@@ -438,7 +446,7 @@
   "padding": {
     "left": 80,
     "top": 5,
-    "right": 0,
+    "right": 80,
     "bottom": 5
   },
   "bounds": "flush"

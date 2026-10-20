@@ -7,11 +7,12 @@
       "stroke": null
     },
     "title": {
-      "anchor": "start",
+      "anchor": "middle",
       "fontSize": 13,
       "fontWeight": "normal",
       "color": "#52514e",
-      "frame": "group"
+      "frame": "group",
+      "offset": 12
     },
     "axis": {
       "labelColor": "#52514e",
@@ -24,11 +25,18 @@
     "axisY": {
       "minExtent": 80,
       "maxExtent": 80
+    },
+    "legend": {
+      "layout": {
+        "bottom": {
+          "anchor": "middle"
+        }
+      }
     }
   },
   "background": "transparent",
   "title": "Digital cameras shipped worldwide by major makers, by type (millions)",
-  "width": 900,
+  "width": 840,
   "height": 340,
   "layer": [
     {
@@ -305,7 +313,7 @@
   "padding": {
     "left": 79,
     "top": 5,
-    "right": 0,
+    "right": 80,
     "bottom": 5
   }
 }

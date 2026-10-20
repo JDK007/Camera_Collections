@@ -7,11 +7,12 @@
       "stroke": null
     },
     "title": {
-      "anchor": "start",
+      "anchor": "middle",
       "fontSize": 13,
       "fontWeight": "normal",
       "color": "#52514e",
-      "frame": "group"
+      "frame": "group",
+      "offset": 12
     },
     "axis": {
       "labelColor": "#52514e",
@@ -24,7 +25,12 @@
     "legend": {
       "labelColor": "#52514e",
       "titleColor": "#52514e",
-      "titleFontWeight": "normal"
+      "titleFontWeight": "normal",
+      "layout": {
+        "bottom": {
+          "anchor": "middle"
+        }
+      }
     },
     "axisY": {
       "minExtent": 80,
@@ -35,7 +41,7 @@
   "hconcat": [
     {
       "title": "Years each brand released digital cameras",
-      "width": 390,
+      "width": 360,
       "height": {
         "step": 26
       },
@@ -197,7 +203,7 @@
     },
     {
       "title": "Share of Australia's camera imports, 2025",
-      "width": 390,
+      "width": 360,
       "height": 546,
       "data": {
         "url": "data/comtrade_au_camera_imports_2025.json",
@@ -361,7 +367,7 @@
   "padding": {
     "left": 0,
     "top": 5,
-    "right": 0,
+    "right": 80,
     "bottom": 5
   },
   "bounds": "flush"

@@ -7,11 +7,12 @@
       "stroke": null
     },
     "title": {
-      "anchor": "start",
+      "anchor": "middle",
       "fontSize": 13,
       "fontWeight": "normal",
       "color": "#52514e",
-      "frame": "group"
+      "frame": "group",
+      "offset": 12
     },
     "axis": {
       "labelColor": "#52514e",
@@ -24,13 +25,20 @@
     "axisY": {
       "minExtent": 80,
       "maxExtent": 80
+    },
+    "legend": {
+      "layout": {
+        "bottom": {
+          "anchor": "middle"
+        }
+      }
     }
   },
   "background": "transparent",
   "hconcat": [
     {
       "title": "Digital cameras shipped worldwide by major makers (millions)",
-      "width": 390,
+      "width": 360,
       "height": 300,
       "layer": [
         {
@@ -290,7 +298,7 @@
     },
     {
       "title": "Change since 2022 (%)",
-      "width": 390,
+      "width": 360,
       "height": 300,
       "layer": [
         {
@@ -654,7 +662,7 @@
   "padding": {
     "left": 0,
     "top": 5,
-    "right": 0,
+    "right": 80,
     "bottom": 5
   },
   "bounds": "flush"

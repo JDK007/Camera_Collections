@@ -52,3 +52,23 @@ h3 { font-size: 24px; font-weight: 600; }
 .stat .number { font-family: 'Playfair Display', Georgia, serif; font-size: 52px; font-weight: 700; line-height: 1; margin: 0; color: #2b2a28; }
 .stat .label { font-size: 16px; line-height: 1.4; color: #52514e; margin: 8px 0 0; max-width: 240px; }
 .stat.accent .number { color: #9b2c2c; }
+
+/* Breathing room around charts */
+.intro { margin-bottom: 32px; }
+.vis-container { margin: 8px 0 20px; }
+.source { margin-top: 0; margin-bottom: 0; }
+.chapter h3 { margin-top: 112px; }
+.chapter { margin-top: 64px; }
+.interlude { margin-top: 128px; padding-top: 80px; }
+.stat-row { margin: 32px 0 20px; }
+
+/* Centre alignment */
+header, .chapter, .stat-card, footer { text-align: center; }
+.intro, .source { margin-left: auto; margin-right: auto; }
+.vis-container { text-align: center; }
+.stat-row { justify-content: center; }
+.stat { flex: 0 1 240px; }
+.stat .label { margin-left: auto; margin-right: auto; }
+.interlude-text p { text-align: center; }
+.stat { flex: 0 1 280px; }
+.stat .number { font-size: 42px; white-space: nowrap; }

@@ -7,11 +7,12 @@
       "stroke": null
     },
     "title": {
-      "anchor": "start",
+      "anchor": "middle",
       "fontSize": 13,
       "fontWeight": "normal",
       "color": "#52514e",
-      "frame": "group"
+      "frame": "group",
+      "offset": 12
     },
     "axis": {
       "labelColor": "#52514e",
@@ -28,7 +29,12 @@
       "titleColor": "#52514e",
       "titleFontWeight": "normal",
       "labelFontSize": 12,
-      "titleFontSize": 12
+      "titleFontSize": 12,
+      "layout": {
+        "bottom": {
+          "anchor": "middle"
+        }
+      }
     },
     "axisY": {
       "minExtent": 80,
@@ -37,8 +43,8 @@
   },
   "background": "transparent",
   "title": "Cameras shipped to each world region in 2025: circle size shows cameras shipped, colour shows change from 2024",
-  "width": 900,
-  "height": 450,
+  "width": 840,
+  "height": 420,
   "projection": {
     "type": "equalEarth",
     "rotate": [
@@ -226,8 +232,8 @@
               "legend": {
                 "title": "Cameras shipped (millions)",
                 "orient": "none",
-                "legendX": 545,
-                "legendY": 265,
+                "legendX": 509,
+                "legendY": 247,
                 "values": [
                   0.5,
                   1,
@@ -259,8 +265,8 @@
                 "symbolType": "circle",
                 "symbolSize": 180,
                 "orient": "none",
-                "legendX": 175,
-                "legendY": 300
+                "legendX": 163,
+                "legendY": 280
               }
             },
             "tooltip": [
@@ -567,7 +573,7 @@
   "padding": {
     "left": 79,
     "top": 5,
-    "right": 0,
+    "right": 80,
     "bottom": 5
   }
 }

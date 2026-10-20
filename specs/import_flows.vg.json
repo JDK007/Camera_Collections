@@ -7,11 +7,12 @@
       "stroke": null
     },
     "title": {
-      "anchor": "start",
+      "anchor": "middle",
       "fontSize": 13,
       "fontWeight": "normal",
       "color": "#52514e",
-      "frame": "group"
+      "frame": "group",
+      "offset": 12
     },
     "axis": {
       "labelColor": "#52514e",
@@ -28,7 +29,12 @@
       "titleColor": "#52514e",
       "titleFontWeight": "normal",
       "labelFontSize": 12,
-      "titleFontSize": 12
+      "titleFontSize": 12,
+      "layout": {
+        "bottom": {
+          "anchor": "middle"
+        }
+      }
     },
     "axisY": {
       "minExtent": 80,
@@ -37,8 +43,8 @@
   },
   "background": "transparent",
   "title": "Australia's ten biggest camera suppliers, 2025: line width shows value, colour shows value per camera",
-  "width": 900,
-  "height": 450,
+  "width": 840,
+  "height": 420,
   "projection": {
     "type": "equalEarth",
     "rotate": [
@@ -330,8 +336,8 @@
                 "symbolType": "stroke",
                 "symbolStrokeWidth": 4,
                 "orient": "none",
-                "legendX": 560,
-                "legendY": 300
+                "legendX": 523,
+                "legendY": 280
               }
             },
             "tooltip": [
@@ -742,7 +748,7 @@
   "padding": {
     "left": 79,
     "top": 5,
-    "right": 0,
+    "right": 80,
     "bottom": 5
   }
 }

@@ -7,11 +7,12 @@
       "stroke": null
     },
     "title": {
-      "anchor": "start",
+      "anchor": "middle",
       "fontSize": 13,
       "fontWeight": "normal",
       "color": "#52514e",
-      "frame": "group"
+      "frame": "group",
+      "offset": 12
     },
     "axis": {
       "labelColor": "#52514e",
@@ -24,14 +25,21 @@
     "axisY": {
       "minExtent": 80,
       "maxExtent": 80
+    },
+    "legend": {
+      "layout": {
+        "bottom": {
+          "anchor": "middle"
+        }
+      }
     }
   },
   "bounds": "flush",
-  "spacing": 44,
+  "spacing": 56,
   "vconcat": [
     {
       "title": "Cameras shipped worldwide by major makers (millions)",
-      "width": 900,
+      "width": 840,
       "height": 70,
       "data": {
         "url": "data/cipa_digital_by_type_1999-2025.csv",
@@ -103,7 +111,7 @@
     },
     {
       "title": "Camera models released by each brand (darker = more models)",
-      "width": 900,
+      "width": 840,
       "height": {
         "step": 22
       },
@@ -246,7 +254,7 @@
   "padding": {
     "left": 0,
     "top": 5,
-    "right": 0,
+    "right": 80,
     "bottom": 5
   }
 }

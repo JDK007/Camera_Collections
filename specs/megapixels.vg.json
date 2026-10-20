@@ -7,11 +7,12 @@
       "stroke": null
     },
     "title": {
-      "anchor": "start",
+      "anchor": "middle",
       "fontSize": 13,
       "fontWeight": "normal",
       "color": "#52514e",
-      "frame": "group"
+      "frame": "group",
+      "offset": 12
     },
     "axis": {
       "labelColor": "#52514e",
@@ -24,12 +25,19 @@
     "axisY": {
       "minExtent": 80,
       "maxExtent": 80
+    },
+    "legend": {
+      "layout": {
+        "bottom": {
+          "anchor": "middle"
+        }
+      }
     }
   },
   "vconcat": [
     {
       "title": "Cameras shipped worldwide by major makers, 1999–2007 (millions)",
-      "width": 900,
+      "width": 840,
       "height": 110,
       "data": {
         "url": "data/cipa_digital_by_type_1999-2025.csv"
@@ -139,7 +147,7 @@
     },
     {
       "title": "Megapixels of every camera released (each dot is one model)",
-      "width": 900,
+      "width": 840,
       "height": 340,
       "data": {
         "url": "data/cameras_1000_specs_1994-2007.csv",
@@ -322,7 +330,8 @@
   "padding": {
     "left": 0,
     "top": 5,
-    "right": 0,
+    "right": 80,
     "bottom": 5
-  }
+  },
+  "spacing": 48
 }
