@@ -1,0 +1,705 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Dumbbell chart comparing each country or region's share of the camera brands in the 1000 Cameras Dataset with its share of the value of Australia's camera imports in 2025 (UN Comtrade).",
+  "config": {
+    "font": "Open Sans",
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "anchor": "middle",
+      "fontSize": 13,
+      "fontWeight": "normal",
+      "color": "#52514e",
+      "frame": "group",
+      "offset": 12
+    },
+    "axis": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "gridColor": "#e8e7e4",
+      "domainColor": "#c3c2b7",
+      "tickColor": "#c3c2b7"
+    },
+    "axisY": {
+      "minExtent": 80,
+      "maxExtent": 80
+    },
+    "legend": {
+      "labelLimit": 400
+    }
+  },
+  "background": "transparent",
+  "padding": {
+    "left": 0,
+    "top": 5,
+    "right": 80,
+    "bottom": 5
+  },
+  "title": "Where the brands came from, and where Australia's cameras come from now",
+  "width": 840,
+  "height": 300,
+  "data": {
+    "url": "data/comtrade_au_camera_imports_2022-2025.csv",
+    "format": {
+      "parse": {
+        "year": "number",
+        "partner_code": "number",
+        "value_usd": "number"
+      }
+    }
+  },
+  "transform": [
+    {
+      "filter": "datum.year == 2025 && datum.partner_code != 0"
+    },
+    {
+      "calculate": "datum.partner_code == 156 ? 'China' : datum.partner_code == 392 ? 'Japan' : datum.partner_code == 410 ? 'South Korea' : datum.partner_code == 842 ? 'USA' : indexof([616, 276, 826, 528, 251, 620, 752, 233, 579, 724, 40, 757, 203, 348, 380, 246, 804, 208, 56, 372, 440, 703, 642, 705, 100, 191, 470, 70, 428], datum.partner_code) >= 0 ? 'Europe' : 'Rest of world'",
+      "as": "region"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "sum",
+          "field": "value_usd",
+          "as": "value_usd"
+        }
+      ],
+      "groupby": [
+        "region"
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "value_usd",
+          "as": "total_usd"
+        }
+      ]
+    },
+    {
+      "calculate": "100 * datum.value_usd / datum.total_usd",
+      "as": "import_share"
+    },
+    {
+      "lookup": "region",
+      "from": {
+        "data": {
+          "url": "data/brand_counts_by_region.csv"
+        },
+        "key": "home_region",
+        "fields": [
+          "brands",
+          "share_of_brands_pct"
+        ]
+      }
+    },
+    {
+      "calculate": "toNumber(datum.share_of_brands_pct)",
+      "as": "brand_share"
+    },
+    {
+      "calculate": "toNumber(datum.brands)",
+      "as": "brand_count"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "rule",
+        "color": "#c9c6bd",
+        "strokeWidth": 4
+      },
+      "encoding": {
+        "y": {
+          "field": "region",
+          "type": "nominal",
+          "title": null,
+          "sort": [
+            "Japan",
+            "China",
+            "Rest of world",
+            "Europe",
+            "USA",
+            "South Korea"
+          ],
+          "axis": {
+            "domain": false,
+            "ticks": false,
+            "labelFontSize": 12,
+            "labelColor": "#2b2a28"
+          }
+        },
+        "x": {
+          "field": "brand_share",
+          "type": "quantitative",
+          "title": null,
+          "scale": {
+            "domain": [
+              -4,
+              80
+            ],
+            "nice": false
+          },
+          "axis": {
+            "values": [
+              0,
+              20,
+              40,
+              60,
+              80
+            ],
+            "labelExpr": "datum.value + '%'"
+          }
+        },
+        "x2": {
+          "field": "import_share"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "fold": [
+            "brand_share",
+            "import_share"
+          ],
+          "as": [
+            "measure_key",
+            "share"
+          ]
+        },
+        {
+          "calculate": "datum.measure_key == 'brand_share' ? \"Share of camera brands (1994–2007)\" : \"Share of Australia's camera imports (2025)\"",
+          "as": "measure"
+        },
+        {
+          "calculate": "format(datum.share, '.0f') + '%'",
+          "as": "label"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "point",
+            "shape": "circle",
+            "filled": false,
+            "size": 200,
+            "strokeWidth": 3,
+            "opacity": 1
+          },
+          "encoding": {
+            "y": {
+              "field": "region",
+              "type": "nominal",
+              "title": null,
+              "sort": [
+                "Japan",
+                "China",
+                "Rest of world",
+                "Europe",
+                "USA",
+                "South Korea"
+              ],
+              "axis": {
+                "domain": false,
+                "ticks": false,
+                "labelFontSize": 12,
+                "labelColor": "#2b2a28"
+              }
+            },
+            "x": {
+              "field": "share",
+              "type": "quantitative",
+              "title": null,
+              "scale": {
+                "domain": [
+                  -4,
+                  80
+                ],
+                "nice": false
+              },
+              "axis": {
+                "values": [
+                  0,
+                  20,
+                  40,
+                  60,
+                  80
+                ],
+                "labelExpr": "datum.value + '%'"
+              }
+            },
+            "color": {
+              "field": "measure",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Share of camera brands (1994–2007)",
+                  "Share of Australia's camera imports (2025)"
+                ],
+                "range": [
+                  "#6b6760",
+                  "#9b2c2c"
+                ]
+              },
+              "legend": null
+            },
+            "tooltip": [
+              {
+                "field": "region",
+                "type": "nominal",
+                "title": "Country or region"
+              },
+              {
+                "field": "measure",
+                "type": "nominal",
+                "title": "Measure"
+              },
+              {
+                "field": "share",
+                "type": "quantitative",
+                "title": "Share (%)",
+                "format": ".1f"
+              },
+              {
+                "field": "brand_count",
+                "type": "quantitative",
+                "title": "Camera brands"
+              }
+            ]
+          },
+          "transform": [
+            {
+              "filter": "datum.measure_key == 'brand_share'"
+            }
+          ]
+        },
+        {
+          "mark": {
+            "type": "circle",
+            "size": 150,
+            "opacity": 1
+          },
+          "encoding": {
+            "y": {
+              "field": "region",
+              "type": "nominal",
+              "title": null,
+              "sort": [
+                "Japan",
+                "China",
+                "Rest of world",
+                "Europe",
+                "USA",
+                "South Korea"
+              ],
+              "axis": {
+                "domain": false,
+                "ticks": false,
+                "labelFontSize": 12,
+                "labelColor": "#2b2a28"
+              }
+            },
+            "x": {
+              "field": "share",
+              "type": "quantitative",
+              "title": null,
+              "scale": {
+                "domain": [
+                  -4,
+                  80
+                ],
+                "nice": false
+              },
+              "axis": {
+                "values": [
+                  0,
+                  20,
+                  40,
+                  60,
+                  80
+                ],
+                "labelExpr": "datum.value + '%'"
+              }
+            },
+            "color": {
+              "field": "measure",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Share of camera brands (1994–2007)",
+                  "Share of Australia's camera imports (2025)"
+                ],
+                "range": [
+                  "#6b6760",
+                  "#9b2c2c"
+                ]
+              },
+              "legend": null
+            },
+            "tooltip": [
+              {
+                "field": "region",
+                "type": "nominal",
+                "title": "Country or region"
+              },
+              {
+                "field": "measure",
+                "type": "nominal",
+                "title": "Measure"
+              },
+              {
+                "field": "share",
+                "type": "quantitative",
+                "title": "Share (%)",
+                "format": ".1f"
+              },
+              {
+                "field": "brand_count",
+                "type": "quantitative",
+                "title": "Camera brands"
+              }
+            ]
+          },
+          "transform": [
+            {
+              "filter": "datum.measure_key == 'import_share'"
+            }
+          ]
+        },
+        {
+          "mark": {
+            "type": "text",
+            "dy": -16,
+            "fontSize": 12,
+            "fontWeight": 600
+          },
+          "encoding": {
+            "y": {
+              "field": "region",
+              "type": "nominal",
+              "title": null,
+              "sort": [
+                "Japan",
+                "China",
+                "Rest of world",
+                "Europe",
+                "USA",
+                "South Korea"
+              ],
+              "axis": {
+                "domain": false,
+                "ticks": false,
+                "labelFontSize": 12,
+                "labelColor": "#2b2a28"
+              }
+            },
+            "x": {
+              "field": "share",
+              "type": "quantitative",
+              "title": null,
+              "scale": {
+                "domain": [
+                  -4,
+                  80
+                ],
+                "nice": false
+              },
+              "axis": {
+                "values": [
+                  0,
+                  20,
+                  40,
+                  60,
+                  80
+                ],
+                "labelExpr": "datum.value + '%'"
+              }
+            },
+            "text": {
+              "field": "label",
+              "type": "nominal"
+            },
+            "color": {
+              "field": "measure",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Share of camera brands (1994–2007)",
+                  "Share of Australia's camera imports (2025)"
+                ],
+                "range": [
+                  "#6b6760",
+                  "#9b2c2c"
+                ]
+              },
+              "legend": null
+            }
+          },
+          "transform": [
+            {
+              "filter": "datum.measure_key == 'brand_share'"
+            }
+          ]
+        },
+        {
+          "mark": {
+            "type": "text",
+            "dy": 18,
+            "fontSize": 12,
+            "fontWeight": 600
+          },
+          "encoding": {
+            "y": {
+              "field": "region",
+              "type": "nominal",
+              "title": null,
+              "sort": [
+                "Japan",
+                "China",
+                "Rest of world",
+                "Europe",
+                "USA",
+                "South Korea"
+              ],
+              "axis": {
+                "domain": false,
+                "ticks": false,
+                "labelFontSize": 12,
+                "labelColor": "#2b2a28"
+              }
+            },
+            "x": {
+              "field": "share",
+              "type": "quantitative",
+              "title": null,
+              "scale": {
+                "domain": [
+                  -4,
+                  80
+                ],
+                "nice": false
+              },
+              "axis": {
+                "values": [
+                  0,
+                  20,
+                  40,
+                  60,
+                  80
+                ],
+                "labelExpr": "datum.value + '%'"
+              }
+            },
+            "text": {
+              "field": "label",
+              "type": "nominal"
+            },
+            "color": {
+              "field": "measure",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Share of camera brands (1994–2007)",
+                  "Share of Australia's camera imports (2025)"
+                ],
+                "range": [
+                  "#6b6760",
+                  "#9b2c2c"
+                ]
+              },
+              "legend": null
+            }
+          },
+          "transform": [
+            {
+              "filter": "datum.measure_key == 'import_share'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "region": "China",
+            "x": 48
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dy": -8,
+        "fontSize": 12,
+        "fontStyle": "italic",
+        "color": "#52514e"
+      },
+      "encoding": {
+        "y": {
+          "field": "region",
+          "type": "nominal",
+          "sort": [
+            "Japan",
+            "China",
+            "Rest of world",
+            "Europe",
+            "USA",
+            "South Korea"
+          ]
+        },
+        "x": {
+          "field": "x",
+          "type": "quantitative"
+        },
+        "text": {
+          "value": "None of the 21 brands is based in China,"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "region": "China",
+            "x": 48
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dy": 9,
+        "fontSize": 12,
+        "fontStyle": "italic",
+        "color": "#52514e"
+      },
+      "encoding": {
+        "y": {
+          "field": "region",
+          "type": "nominal",
+          "sort": [
+            "Japan",
+            "China",
+            "Rest of world",
+            "Europe",
+            "USA",
+            "South Korea"
+          ]
+        },
+        "x": {
+          "field": "x",
+          "type": "quantitative"
+        },
+        "text": {
+          "value": "yet 45% of Australia's camera imports are made there"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "x": 10
+          }
+        ]
+      },
+      "mark": {
+        "type": "point",
+        "shape": "circle",
+        "filled": false,
+        "size": 200,
+        "strokeWidth": 3,
+        "color": "#6b6760",
+        "y": 338,
+        "opacity": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "x": 11.6
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "fontSize": 12,
+        "color": "#2b2a28",
+        "y": 338
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "quantitative"
+        },
+        "text": {
+          "value": "Share of camera brands (1994–2007)"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "x": 41
+          }
+        ]
+      },
+      "mark": {
+        "type": "circle",
+        "size": 150,
+        "opacity": 1,
+        "color": "#9b2c2c",
+        "y": 338
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "x": 42.6
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "fontSize": 12,
+        "color": "#2b2a28",
+        "y": 338
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "quantitative"
+        },
+        "text": {
+          "value": "Share of Australia's camera imports (2025)"
+        }
+      }
+    }
+  ]
+}

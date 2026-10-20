@@ -6,7 +6,7 @@ Promise.all([
 ]).then(drawCharts, drawCharts);
 
 // Added to each chart file's address so the browser fetches the latest version
-const version = "?v=10";
+const version = "?v=12";
 
 function drawCharts() {
   vegaEmbed("#film_vs_digital", "specs/film_vs_digital.vg.json" + version, { "actions": false })
@@ -18,7 +18,7 @@ function drawCharts() {
   vegaEmbed("#brand_heatmap", "specs/brand_heatmap.vg.json" + version, { "actions": false })
     .catch(console.error);
 
-  vegaEmbed("#brand_lifespans", "specs/brand_lifespans.vg.json" + version, { "actions": false })
+  vegaEmbed("#brand_vs_imports", "specs/brand_vs_imports.vg.json" + version, { "actions": false })
     .catch(console.error);
 
   vegaEmbed("#brand_ranks", "specs/brand_ranks.vg.json" + version, { "actions": false })

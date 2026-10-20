@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css?v=10">
+  <link rel="stylesheet" href="css/style.css?v=12">
 </head>
 <body>
   <div class="page">
@@ -121,14 +121,15 @@
           Hover over a square to see the number of models.</p>
 
         <h3>Japanese brands, made everywhere</h3>
-        <p class="intro">Almost every brand in the race was Japanese. Yet today, only 6.8% of the cameras Australia
-          imports come from Japan, while 45.4% come from China, a country with no brands on this list. The brands
-          stayed Japanese; the factories moved.</p>
-        <div id="brand_lifespans" class="vis-container"></div>
-        <p class="source">Sources: 1000 Cameras Dataset (Isenberg, Dragicevic &amp; Jansen, via Kaggle), years with at least
-          one model released; brand home countries are where each company is headquartered (Agfa: Belgium; Leica: Germany); UN Comtrade, Australian imports
-          of cameras (HS 852589, which also includes video and security cameras) by country of origin, 2025.
-          Bars that reach the dashed line were still releasing models when the dataset ends; many of these brands, such as Sony, Canon and Nikon, still make cameras today. Hover over a bar for details.</p>
+        <p class="intro">Almost every brand in the race was Japanese: 16 of the 21 brands in the dataset. Yet today only 7%
+          of the value of cameras Australia imports comes from Japan, while 45% comes from China, home to none of these
+          brands. The brands stayed Japanese; the factories moved.</p>
+        <div id="brand_vs_imports" class="vis-container"></div>
+        <p class="source">Sources: 1000 Cameras Dataset (Isenberg, Dragicevic &amp; Jansen, via Kaggle), the 21 brands with
+          models released 1994–2007, grouped by where each company is headquartered (Europe: Agfa, Belgium, and Leica,
+          Germany); UN Comtrade, value of Australian imports of cameras (HS 852589, which also includes video and security
+          cameras) by country of origin, 2025, with every European country counted in Europe. "Rest of world" is mostly
+          Vietnam, Thailand, Taiwan and Mexico. Hover over a dot for details.</p>
 
         <h3>Changing places</h3>
         <p class="intro">The lead changed hands again and again. Kodak, America's photography giant, started 1999 releasing
@@ -269,6 +270,6 @@
     </footer>
 
   </div>
-  <script src="js/charts.js?v=10"></script>
+  <script src="js/charts.js?v=12"></script>
 </body>
 </html>
