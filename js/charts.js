@@ -6,7 +6,7 @@ Promise.all([
 ]).then(drawCharts, drawCharts);
 
 // Added to each chart file's address so the browser fetches the latest version
-const version = "?v=9";
+const version = "?v=10";
 
 function drawCharts() {
   vegaEmbed("#film_vs_digital", "specs/film_vs_digital.vg.json" + version, { "actions": false })

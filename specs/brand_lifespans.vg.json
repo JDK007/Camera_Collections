@@ -40,7 +40,7 @@
   "spacing": 120,
   "hconcat": [
     {
-      "title": "Years each brand released digital cameras",
+      "title": "Years each brand released at least one model, 1994–2007",
       "width": 360,
       "height": {
         "step": 26
@@ -98,108 +98,179 @@
           }
         }
       ],
-      "mark": {
-        "type": "bar",
-        "cornerRadius": 3,
-        "height": 20
-      },
-      "encoding": {
-        "y": {
-          "field": "brand",
-          "type": "nominal",
-          "sort": {
-            "field": "first_year",
-            "order": "ascending"
+      "layer": [
+        {
+          "mark": {
+            "type": "bar",
+            "cornerRadius": 3,
+            "height": 20
           },
-          "axis": {
-            "title": null,
-            "domain": false,
-            "ticks": false,
-            "labelPadding": 6
+          "encoding": {
+            "y": {
+              "field": "brand",
+              "type": "nominal",
+              "sort": {
+                "field": "first_year",
+                "order": "ascending"
+              },
+              "axis": {
+                "title": null,
+                "domain": false,
+                "ticks": false,
+                "labelPadding": 6
+              }
+            },
+            "x": {
+              "field": "first_year",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  1994,
+                  2008
+                ],
+                "nice": false
+              },
+              "axis": {
+                "title": null,
+                "format": "d",
+                "labelAngle": 0,
+                "grid": true,
+                "values": [
+                  1994,
+                  1996,
+                  1998,
+                  2000,
+                  2002,
+                  2004,
+                  2006
+                ]
+              }
+            },
+            "x2": {
+              "field": "end"
+            },
+            "color": {
+              "field": "home_region",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Japan",
+                  "South Korea",
+                  "USA",
+                  "Europe"
+                ],
+                "range": [
+                  "#6250d6",
+                  "#e87ba4",
+                  "#1baf7a",
+                  "#eda100"
+                ]
+              },
+              "legend": {
+                "title": "Brand's home country",
+                "orient": "bottom",
+                "direction": "horizontal"
+              }
+            },
+            "tooltip": [
+              {
+                "field": "brand",
+                "type": "nominal",
+                "title": "Brand"
+              },
+              {
+                "field": "headquarters",
+                "type": "nominal",
+                "title": "Headquarters"
+              },
+              {
+                "field": "first_year",
+                "type": "quantitative",
+                "title": "First model",
+                "format": "d"
+              },
+              {
+                "field": "last_year",
+                "type": "quantitative",
+                "title": "Last model",
+                "format": "d"
+              },
+              {
+                "field": "models",
+                "type": "quantitative",
+                "title": "Models in dataset"
+              }
+            ]
           }
         },
-        "x": {
-          "field": "first_year",
-          "type": "quantitative",
-          "scale": {
-            "domain": [
-              1994,
-              2008
-            ],
-            "nice": false
-          },
-          "axis": {
-            "title": null,
-            "format": "d",
-            "labelAngle": 0,
-            "grid": true,
+        {
+          "data": {
             "values": [
-              1994,
-              1996,
-              1998,
-              2000,
-              2002,
-              2004,
-              2006
+              {
+                "x": 2008
+              }
             ]
-          }
-        },
-        "x2": {
-          "field": "end"
-        },
-        "color": {
-          "field": "home_region",
-          "type": "nominal",
-          "scale": {
-            "domain": [
-              "Japan",
-              "South Korea",
-              "USA",
-              "Europe"
+          },
+          "mark": {
+            "type": "rule",
+            "color": "#8a8880",
+            "strokeDash": [
+              4,
+              4
             ],
-            "range": [
-              "#6250d6",
-              "#e87ba4",
-              "#1baf7a",
-              "#eda100"
-            ]
+            "strokeWidth": 1.5
           },
-          "legend": {
-            "title": "Brand's home country",
-            "orient": "bottom",
-            "direction": "horizontal"
+          "encoding": {
+            "x": {
+              "field": "x",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  1994,
+                  2008
+                ],
+                "nice": false
+              }
+            }
           }
         },
-        "tooltip": [
-          {
-            "field": "brand",
-            "type": "nominal",
-            "title": "Brand"
+        {
+          "data": {
+            "values": [
+              {
+                "x": 2008
+              }
+            ]
           },
-          {
-            "field": "headquarters",
-            "type": "nominal",
-            "title": "Headquarters"
+          "mark": {
+            "type": "text",
+            "angle": 90,
+            "align": "center",
+            "baseline": "bottom",
+            "dx": 0,
+            "dy": -6,
+            "y": 273,
+            "fontSize": 11,
+            "color": "#52514e"
           },
-          {
-            "field": "first_year",
-            "type": "quantitative",
-            "title": "First model",
-            "format": "d"
-          },
-          {
-            "field": "last_year",
-            "type": "quantitative",
-            "title": "Last model",
-            "format": "d"
-          },
-          {
-            "field": "models",
-            "type": "quantitative",
-            "title": "Models in dataset"
+          "encoding": {
+            "x": {
+              "field": "x",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  1994,
+                  2008
+                ],
+                "nice": false
+              }
+            },
+            "text": {
+              "value": "Dataset ends (2007)"
+            }
           }
-        ]
-      }
+        }
+      ]
     },
     {
       "title": "Share of Australia's camera imports, 2025",

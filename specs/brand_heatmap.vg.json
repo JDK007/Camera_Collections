@@ -38,7 +38,7 @@
   "spacing": 56,
   "vconcat": [
     {
-      "title": "Cameras shipped worldwide by major makers (millions)",
+      "title": "Cameras shipped worldwide by major makers, 1999–2007 (millions)",
       "width": 840,
       "height": 70,
       "data": {
@@ -110,7 +110,7 @@
       }
     },
     {
-      "title": "Camera models released by each brand (darker = more models)",
+      "title": "Camera models released by each brand, 1999–2007 (darker = more models)",
       "width": 840,
       "height": {
         "step": 22
