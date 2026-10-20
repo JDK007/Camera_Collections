@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
   <div class="page">
@@ -30,6 +30,17 @@
         <p class="subtitle">The rise, fall and comeback of the digital camera</p>
       </div>
     </header>
+
+    <section class="pure-g stat-card">
+      <div class="pure-u-1-1">
+        <div class="stat-row">
+          <div class="stat"><p class="number">121.5 million</p><p class="label">cameras shipped worldwide in 2010, the all-time peak</p></div>
+          <div class="stat"><p class="number">9.4 million</p><p class="label">shipped in 2025, a fall of 92%</p></div>
+          <div class="stat accent"><p class="number">+11%</p><p class="label">growth from 2024 to 2025: the camera is coming back</p></div>
+        </div>
+        <p class="source">Source: Camera &amp; Imaging Products Association (CIPA), digital camera shipments by its member companies.</p>
+      </div>
+    </section>
 
     <aside class="pure-g interlude">
       <div class="pure-u-1 pure-u-md-1-3 interlude-art">
@@ -167,6 +178,15 @@
           and mirrorless cameras are reported separately from 2012. Each square stands for 1 in every 100
           interchangeable-lens cameras shipped. Hover over a square for details.</p>
 
+        <h3>From bargain to premium</h3>
+        <p class="intro">As sales fell, cameras stopped being cheap. By 2011–12 the average camera shipped cost about
+          two-thirds less than in 2003. Since then, the average compact camera's price has risen almost sevenfold, ending
+          132% above its 2003 level, a sign that the cameras still selling are higher-end models.</p>
+        <div id="camera_prices" class="vis-container"></div>
+        <p class="source">Source: Camera &amp; Imaging Products Association (CIPA), average price per camera shipped by its
+          member companies, reported in Japanese yen and shown here as the change since 2003 (not adjusted for
+          inflation). Hover over a point for the price in yen.</p>
+
         <h3>Back from the brink</h3>
         <p class="intro">After hitting bottom in 2023, camera shipments are rising again, up 18% worldwide since 2022.
           Australians are part of the comeback: over the same years, the value of cameras imported into Australia
@@ -222,6 +242,22 @@
       </div>
     </section>
 
+    <section class="pure-g chapter stat-card">
+      <div class="pure-u-1-1">
+        <p class="chapter-number">The picture now</p>
+        <h2>Smaller, dearer, and growing again</h2>
+        <div class="stat-row">
+          <div class="stat"><p class="number">+18%</p><p class="label">cameras shipped worldwide, 2022 to 2025</p></div>
+          <div class="stat accent"><p class="number">+30%</p><p class="label">value of Australia's camera imports, 2022 to 2025</p></div>
+          <div class="stat"><p class="number">+132%</p><p class="label">average compact camera price, 2003 to 2025</p></div>
+        </div>
+        <p class="intro">Phones took over the everyday snapshot, but the camera did not disappear. Far fewer are sold than
+          at the 2010 peak, yet the ones people buy now are dearer and more specialised, and Australians are buying
+          more of them each year.</p>
+        <p class="source">Sources: Camera &amp; Imaging Products Association (CIPA); UN Comtrade.</p>
+      </div>
+    </section>
+
     <footer class="pure-g">
       <div class="pure-u-1-1 small-font">
         <p><strong>Author:</strong> Jayden de Kauwe · <strong>Published:</strong> October 2026</p>
@@ -233,6 +269,6 @@
     </footer>
 
   </div>
-  <script src="js/charts.js"></script>
+  <script src="js/charts.js?v=4"></script>
 </body>
 </html>

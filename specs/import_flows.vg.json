@@ -21,6 +21,8 @@
       "tickColor": "#c3c2b7"
     },
     "legend": {
+      "titleLimit": 300,
+      "labelLimit": 300,
       "labelColor": "#52514e",
       "titleColor": "#52514e",
       "titleFontWeight": "normal",

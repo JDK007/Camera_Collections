@@ -44,3 +44,11 @@ h3 { font-size: 24px; font-weight: 600; }
 .byline { color: #6b6760; }
 .interlude-text p { color: #2b2a28; }
 .source { color: #6b6760; }
+
+/* Stat cards */
+.stat-card { margin-top: 56px; }
+.stat-row { display: flex; flex-wrap: wrap; gap: 24px 56px; margin: 24px 0 8px; }
+.stat { flex: 1 1 200px; }
+.stat .number { font-family: 'Playfair Display', Georgia, serif; font-size: 52px; font-weight: 700; line-height: 1; margin: 0; color: #2b2a28; }
+.stat .label { font-size: 16px; line-height: 1.4; color: #52514e; margin: 8px 0 0; max-width: 240px; }
+.stat.accent .number { color: #9b2c2c; }

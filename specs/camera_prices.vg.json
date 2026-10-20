@@ -1,0 +1,426 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Change in the average price of compact and interchangeable-lens cameras since 2003 (CIPA average shipment price, in yen).",
+  "config": {
+    "font": "Open Sans",
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "anchor": "start",
+      "fontSize": 13,
+      "fontWeight": "normal",
+      "color": "#52514e"
+    },
+    "axis": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "gridColor": "#e8e7e4",
+      "domainColor": "#c3c2b7",
+      "tickColor": "#c3c2b7"
+    }
+  },
+  "background": "transparent",
+  "title": "Average price of a camera shipped, change since 2003",
+  "width": 845,
+  "height": 320,
+  "layer": [
+    {
+      "data": {
+        "values": [
+          {
+            "y": 0
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "color": "#8a8880"
+      },
+      "encoding": {
+        "y": {
+          "field": "y",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              -90,
+              150
+            ]
+          }
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/cipa_digital_by_type_1999-2025.csv",
+        "format": {
+          "parse": {
+            "year": "number",
+            "avg_price_compact_kyen": "number",
+            "avg_price_interchangeable_kyen": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.year >= 2003"
+        },
+        {
+          "fold": [
+            "avg_price_compact_kyen",
+            "avg_price_interchangeable_kyen"
+          ],
+          "as": [
+            "column",
+            "kyen"
+          ]
+        },
+        {
+          "calculate": "datum.column == 'avg_price_compact_kyen' ? 'Compact cameras' : 'Interchangeable-lens cameras'",
+          "as": "type"
+        },
+        {
+          "window": [
+            {
+              "op": "first_value",
+              "field": "kyen",
+              "as": "base"
+            }
+          ],
+          "groupby": [
+            "type"
+          ],
+          "sort": [
+            {
+              "field": "year"
+            }
+          ],
+          "frame": [
+            null,
+            null
+          ]
+        },
+        {
+          "calculate": "100 * (datum.kyen / datum.base - 1)",
+          "as": "pct"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "line",
+            "strokeWidth": 3,
+            "interpolate": "monotone"
+          },
+          "encoding": {
+            "x": {
+              "field": "year",
+              "type": "quantitative",
+              "title": null,
+              "scale": {
+                "domain": [
+                  2003,
+                  2025
+                ],
+                "nice": false
+              },
+              "axis": {
+                "format": "d",
+                "values": [
+                  2003,
+                  2007,
+                  2011,
+                  2015,
+                  2019,
+                  2025
+                ],
+                "grid": false
+              }
+            },
+            "y": {
+              "field": "pct",
+              "type": "quantitative",
+              "title": null,
+              "scale": {
+                "domain": [
+                  -90,
+                  150
+                ]
+              },
+              "axis": {
+                "values": [
+                  -50,
+                  0,
+                  50,
+                  100,
+                  150
+                ],
+                "labelExpr": "(datum.value > 0 ? '+' : '') + datum.value + '%'"
+              }
+            },
+            "color": {
+              "field": "type",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Compact cameras",
+                  "Interchangeable-lens cameras"
+                ],
+                "range": [
+                  "#7fb0ea",
+                  "#2a78d6"
+                ]
+              },
+              "legend": null
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "point",
+            "filled": true,
+            "size": 40
+          },
+          "encoding": {
+            "x": {
+              "field": "year",
+              "type": "quantitative",
+              "title": null,
+              "scale": {
+                "domain": [
+                  2003,
+                  2025
+                ],
+                "nice": false
+              },
+              "axis": {
+                "format": "d",
+                "values": [
+                  2003,
+                  2007,
+                  2011,
+                  2015,
+                  2019,
+                  2025
+                ],
+                "grid": false
+              }
+            },
+            "y": {
+              "field": "pct",
+              "type": "quantitative",
+              "title": null,
+              "scale": {
+                "domain": [
+                  -90,
+                  150
+                ]
+              },
+              "axis": {
+                "values": [
+                  -50,
+                  0,
+                  50,
+                  100,
+                  150
+                ],
+                "labelExpr": "(datum.value > 0 ? '+' : '') + datum.value + '%'"
+              }
+            },
+            "color": {
+              "field": "type",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Compact cameras",
+                  "Interchangeable-lens cameras"
+                ],
+                "range": [
+                  "#7fb0ea",
+                  "#2a78d6"
+                ]
+              },
+              "legend": null
+            },
+            "tooltip": [
+              {
+                "field": "type",
+                "type": "nominal",
+                "title": "Type"
+              },
+              {
+                "field": "year",
+                "type": "quantitative",
+                "title": "Year",
+                "format": "d"
+              },
+              {
+                "field": "kyen",
+                "type": "quantitative",
+                "title": "Average price (thousand yen)",
+                "format": ".1f"
+              },
+              {
+                "field": "pct",
+                "type": "quantitative",
+                "title": "Change since 2003 (%)",
+                "format": "+.0f"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "layer": [
+        {
+          "data": {
+            "values": [
+              {
+                "year": 2025,
+                "pct": 132,
+                "t": "Compact cameras: +132%",
+                "c": "#3f7fc7"
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "dx": -6,
+            "dy": -12,
+            "fontSize": 12,
+            "fontWeight": 600
+          },
+          "encoding": {
+            "x": {
+              "field": "year",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  2003,
+                  2025
+                ],
+                "nice": false
+              }
+            },
+            "y": {
+              "field": "pct",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  -90,
+                  150
+                ]
+              }
+            },
+            "text": {
+              "field": "t"
+            },
+            "color": {
+              "field": "c",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "year": 2025,
+                "pct": 3,
+                "t": "Interchangeable-lens: +3%",
+                "c": "#2a78d6"
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "dx": -6,
+            "dy": 18,
+            "fontSize": 12,
+            "fontWeight": 600
+          },
+          "encoding": {
+            "x": {
+              "field": "year",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  2003,
+                  2025
+                ],
+                "nice": false
+              }
+            },
+            "y": {
+              "field": "pct",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  -90,
+                  150
+                ]
+              }
+            },
+            "text": {
+              "field": "t"
+            },
+            "color": {
+              "field": "c",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "year": 2011,
+            "pct": -66
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "dy": 14,
+        "fontSize": 12,
+        "color": "#52514e"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              2003,
+              2025
+            ],
+            "nice": false
+          }
+        },
+        "y": {
+          "field": "pct",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              -90,
+              150
+            ]
+          }
+        },
+        "text": {
+          "value": "2011\u201312: both about two-thirds cheaper than in 2003"
+        }
+      }
+    }
+  ]
+}

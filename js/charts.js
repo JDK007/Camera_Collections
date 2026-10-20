@@ -19,6 +19,9 @@ vegaEmbed("#camera_types", "specs/camera_types.vg.json", { "actions": false })
 vegaEmbed("#dslr_mirrorless", "specs/dslr_mirrorless.vg.json", { "actions": false })
   .catch(console.error);
 
+vegaEmbed("#camera_prices", "specs/camera_prices.vg.json", { "actions": false })
+  .catch(console.error);
+
 vegaEmbed("#comeback", "specs/comeback.vg.json", { "actions": false })
   .catch(console.error);
 

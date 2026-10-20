@@ -21,6 +21,8 @@
       "tickColor": "#c3c2b7"
     },
     "legend": {
+      "titleLimit": 300,
+      "labelLimit": 300,
       "labelColor": "#52514e",
       "titleColor": "#52514e",
       "titleFontWeight": "normal",
@@ -178,6 +180,10 @@
           "as": "change"
         },
         {
+          "calculate": "datum.change < 0 ? 'Fell' : datum.change < 10 ? 'Up under 10%' : datum.change < 20 ? 'Up 10% to 20%' : 'Up 20% or more'",
+          "as": "change_class"
+        },
+        {
           "calculate": "datum.short + ': ' + format(datum.millions, '.1f') + 'M (' + (datum.change > 0 ? '+' : '') + format(datum.change, '.1f') + '%)'",
           "as": "label"
         }
@@ -227,30 +233,29 @@
               }
             },
             "color": {
-              "field": "change",
-              "type": "quantitative",
+              "field": "change_class",
+              "type": "ordinal",
               "scale": {
-                "domainMid": 0,
                 "domain": [
-                  -30,
-                  30
+                  "Fell",
+                  "Up under 10%",
+                  "Up 10% to 20%",
+                  "Up 20% or more"
                 ],
-                "clamp": true,
-                "scheme": "brownbluegreen"
+                "range": [
+                  "#a6611a",
+                  "#c7eae5",
+                  "#5ab4ac",
+                  "#01665e"
+                ]
               },
               "legend": {
-                "title": "Change from 2024 (%)",
-                "orient": "bottom-left",
-                "direction": "horizontal",
-                "gradientLength": 200,
-                "values": [
-                  -30,
-                  -15,
-                  0,
-                  15,
-                  30
-                ],
-                "labelExpr": "(datum.value > 0 ? '+' : '') + datum.value + '%'"
+                "title": "Change from 2024",
+                "symbolType": "circle",
+                "symbolSize": 180,
+                "orient": "none",
+                "legendX": 0,
+                "legendY": 330
               }
             },
             "tooltip": [
