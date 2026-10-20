@@ -10,7 +10,8 @@
       "anchor": "start",
       "fontSize": 13,
       "fontWeight": "normal",
-      "color": "#52514e"
+      "color": "#52514e",
+      "frame": "group"
     },
     "axis": {
       "labelColor": "#52514e",
@@ -28,12 +29,16 @@
       "titleFontWeight": "normal",
       "labelFontSize": 12,
       "titleFontSize": 12
+    },
+    "axisY": {
+      "minExtent": 80,
+      "maxExtent": 80
     }
   },
   "background": "transparent",
   "title": "Cameras shipped to each world region in 2025: circle size shows cameras shipped, colour shows change from 2024",
-  "width": 845,
-  "height": 430,
+  "width": 900,
+  "height": 450,
   "projection": {
     "type": "equalEarth",
     "rotate": [
@@ -254,8 +259,8 @@
                 "symbolType": "circle",
                 "symbolSize": 180,
                 "orient": "none",
-                "legendX": 0,
-                "legendY": 330
+                "legendX": 175,
+                "legendY": 300
               }
             },
             "tooltip": [
@@ -558,5 +563,11 @@
         }
       ]
     }
-  ]
+  ],
+  "padding": {
+    "left": 79,
+    "top": 5,
+    "right": 0,
+    "bottom": 5
+  }
 }

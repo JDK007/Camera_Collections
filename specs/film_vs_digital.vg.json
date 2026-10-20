@@ -10,7 +10,8 @@
       "anchor": "start",
       "fontSize": 13,
       "fontWeight": "normal",
-      "color": "#52514e"
+      "color": "#52514e",
+      "frame": "group"
     },
     "axis": {
       "labelColor": "#52514e",
@@ -19,12 +20,16 @@
       "gridColor": "#e8e7e4",
       "domainColor": "#c3c2b7",
       "tickColor": "#c3c2b7"
+    },
+    "axisY": {
+      "minExtent": 80,
+      "maxExtent": 80
     }
   },
   "vconcat": [
     {
       "title": "Cameras shipped worldwide by major makers (millions)",
-      "width": 845,
+      "width": 900,
       "height": 300,
       "data": {
         "url": "data/cipa_film_vs_digital_1951-2025.csv"
@@ -332,7 +337,7 @@
       ]
     },
     {
-      "width": 845,
+      "width": 900,
       "height": 130,
       "data": {
         "url": "data/cameras_1000_specs_1994-2007.csv",
@@ -396,7 +401,7 @@
           "mark": {
             "type": "bar",
             "color": "#9cc0ec",
-            "width": 36,
+            "width": 40,
             "cornerRadiusEnd": 2
           },
           "encoding": {
@@ -419,5 +424,11 @@
       "title": "Digital camera models released each year"
     }
   ],
-  "background": "transparent"
+  "background": "transparent",
+  "padding": {
+    "left": 0,
+    "top": 5,
+    "right": 0,
+    "bottom": 5
+  }
 }

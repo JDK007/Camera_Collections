@@ -10,7 +10,8 @@
       "anchor": "start",
       "fontSize": 13,
       "fontWeight": "normal",
-      "color": "#52514e"
+      "color": "#52514e",
+      "frame": "group"
     },
     "axis": {
       "labelColor": "#52514e",
@@ -28,12 +29,16 @@
       "titleFontWeight": "normal",
       "labelFontSize": 12,
       "titleFontSize": 12
+    },
+    "axisY": {
+      "minExtent": 80,
+      "maxExtent": 80
     }
   },
   "background": "transparent",
   "title": "Australia's ten biggest camera suppliers, 2025: line width shows value, colour shows value per camera",
-  "width": 845,
-  "height": 430,
+  "width": 900,
+  "height": 450,
   "projection": {
     "type": "equalEarth",
     "rotate": [
@@ -733,5 +738,11 @@
         }
       }
     }
-  ]
+  ],
+  "padding": {
+    "left": 79,
+    "top": 5,
+    "right": 0,
+    "bottom": 5
+  }
 }

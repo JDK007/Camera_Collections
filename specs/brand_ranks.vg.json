@@ -10,7 +10,8 @@
       "anchor": "start",
       "fontSize": 13,
       "fontWeight": "normal",
-      "color": "#52514e"
+      "color": "#52514e",
+      "frame": "group"
     },
     "axis": {
       "labelColor": "#52514e",
@@ -19,10 +20,14 @@
       "gridColor": "#e8e7e4",
       "domainColor": "#c3c2b7",
       "tickColor": "#c3c2b7"
+    },
+    "axisY": {
+      "minExtent": 80,
+      "maxExtent": 80
     }
   },
   "title": "Rank by number of camera models released each year (1 = most). Click a line to highlight it.",
-  "width": 740,
+  "width": 900,
   "height": 330,
   "data": {
     "url": "data/cameras_1000_specs_1994-2007.csv",
@@ -107,7 +112,7 @@
       "scale": {
         "domain": [
           1998.8,
-          2007.2
+          2008.2
         ],
         "nice": false
       },
@@ -141,7 +146,7 @@
         "nice": false
       },
       "axis": {
-        "title": "Rank",
+        "title": null,
         "format": "d",
         "grid": false,
         "values": [
@@ -276,5 +281,11 @@
       }
     }
   ],
-  "background": "transparent"
+  "background": "transparent",
+  "padding": {
+    "left": 0,
+    "top": 5,
+    "right": 0,
+    "bottom": 5
+  }
 }

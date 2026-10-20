@@ -10,7 +10,8 @@
       "anchor": "start",
       "fontSize": 13,
       "fontWeight": "normal",
-      "color": "#52514e"
+      "color": "#52514e",
+      "frame": "group"
     },
     "axis": {
       "labelColor": "#52514e",
@@ -19,11 +20,15 @@
       "gridColor": "#e8e7e4",
       "domainColor": "#c3c2b7",
       "tickColor": "#c3c2b7"
+    },
+    "axisY": {
+      "minExtent": 80,
+      "maxExtent": 80
     }
   },
   "background": "transparent",
   "title": "Average price of a camera shipped, change since 2003",
-  "width": 845,
+  "width": 900,
   "height": 320,
   "layer": [
     {
@@ -418,9 +423,15 @@
           }
         },
         "text": {
-          "value": "2011\u201312: both about two-thirds cheaper than in 2003"
+          "value": "2011–12: both about two-thirds cheaper than in 2003"
         }
       }
     }
-  ]
+  ],
+  "padding": {
+    "left": 0,
+    "top": 5,
+    "right": 0,
+    "bottom": 5
+  }
 }

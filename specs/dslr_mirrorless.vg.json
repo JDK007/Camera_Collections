@@ -10,7 +10,8 @@
       "anchor": "start",
       "fontSize": 13,
       "fontWeight": "normal",
-      "color": "#52514e"
+      "color": "#52514e",
+      "frame": "group"
     },
     "axis": {
       "labelColor": "#52514e",
@@ -19,6 +20,10 @@
       "gridColor": "#e8e7e4",
       "domainColor": "#c3c2b7",
       "tickColor": "#c3c2b7"
+    },
+    "axisY": {
+      "minExtent": 80,
+      "maxExtent": 80
     }
   },
   "background": "transparent",
@@ -38,8 +43,8 @@
         "subtitleFontSize": 13,
         "subtitleColor": "#52514e"
       },
-      "width": 230,
-      "height": 230,
+      "width": 260,
+      "height": 260,
       "data": {
         "sequence": {
           "start": 0,
@@ -73,7 +78,7 @@
           }
         },
         {
-          "calculate": "round(100*datum.dslr_thousand_units/(datum.dslr_thousand_units+datum.mirrorless_thousand_units))",
+          "calculate": "round(100 * toNumber(datum.dslr_thousand_units) / (toNumber(datum.dslr_thousand_units) + toNumber(datum.mirrorless_thousand_units)))",
           "as": "dslr_pct"
         },
         {
@@ -85,7 +90,7 @@
           "as": "pct"
         },
         {
-          "calculate": "datum.type == 'DSLR' ? datum.dslr_thousand_units/1000 : datum.mirrorless_thousand_units/1000",
+          "calculate": "datum.type == 'DSLR' ? toNumber(datum.dslr_thousand_units) / 1000 : toNumber(datum.mirrorless_thousand_units) / 1000",
           "as": "units_m"
         },
         {
@@ -99,7 +104,7 @@
       ],
       "mark": {
         "type": "square",
-        "size": 300,
+        "size": 400,
         "opacity": 1
       },
       "encoding": {
@@ -170,8 +175,8 @@
         "subtitleFontSize": 13,
         "subtitleColor": "#52514e"
       },
-      "width": 230,
-      "height": 230,
+      "width": 260,
+      "height": 260,
       "data": {
         "sequence": {
           "start": 0,
@@ -205,7 +210,7 @@
           }
         },
         {
-          "calculate": "round(100*datum.dslr_thousand_units/(datum.dslr_thousand_units+datum.mirrorless_thousand_units))",
+          "calculate": "round(100 * toNumber(datum.dslr_thousand_units) / (toNumber(datum.dslr_thousand_units) + toNumber(datum.mirrorless_thousand_units)))",
           "as": "dslr_pct"
         },
         {
@@ -217,7 +222,7 @@
           "as": "pct"
         },
         {
-          "calculate": "datum.type == 'DSLR' ? datum.dslr_thousand_units/1000 : datum.mirrorless_thousand_units/1000",
+          "calculate": "datum.type == 'DSLR' ? toNumber(datum.dslr_thousand_units) / 1000 : toNumber(datum.mirrorless_thousand_units) / 1000",
           "as": "units_m"
         },
         {
@@ -231,7 +236,7 @@
       ],
       "mark": {
         "type": "square",
-        "size": 300,
+        "size": 400,
         "opacity": 1
       },
       "encoding": {
@@ -302,8 +307,8 @@
         "subtitleFontSize": 13,
         "subtitleColor": "#52514e"
       },
-      "width": 230,
-      "height": 230,
+      "width": 260,
+      "height": 260,
       "data": {
         "sequence": {
           "start": 0,
@@ -337,7 +342,7 @@
           }
         },
         {
-          "calculate": "round(100*datum.dslr_thousand_units/(datum.dslr_thousand_units+datum.mirrorless_thousand_units))",
+          "calculate": "round(100 * toNumber(datum.dslr_thousand_units) / (toNumber(datum.dslr_thousand_units) + toNumber(datum.mirrorless_thousand_units)))",
           "as": "dslr_pct"
         },
         {
@@ -349,7 +354,7 @@
           "as": "pct"
         },
         {
-          "calculate": "datum.type == 'DSLR' ? datum.dslr_thousand_units/1000 : datum.mirrorless_thousand_units/1000",
+          "calculate": "datum.type == 'DSLR' ? toNumber(datum.dslr_thousand_units) / 1000 : toNumber(datum.mirrorless_thousand_units) / 1000",
           "as": "units_m"
         },
         {
@@ -363,7 +368,7 @@
       ],
       "mark": {
         "type": "square",
-        "size": 300,
+        "size": 400,
         "opacity": 1
       },
       "encoding": {
@@ -424,10 +429,17 @@
       }
     }
   ],
-  "spacing": 70,
+  "spacing": 60,
   "resolve": {
     "legend": {
       "color": "shared"
     }
-  }
+  },
+  "padding": {
+    "left": 80,
+    "top": 5,
+    "right": 0,
+    "bottom": 5
+  },
+  "bounds": "flush"
 }

@@ -10,7 +10,8 @@
       "anchor": "start",
       "fontSize": 13,
       "fontWeight": "normal",
-      "color": "#52514e"
+      "color": "#52514e",
+      "frame": "group"
     },
     "axis": {
       "labelColor": "#52514e",
@@ -28,12 +29,16 @@
       "titleFontWeight": "normal",
       "labelFontSize": 12,
       "titleFontSize": 12
+    },
+    "axisY": {
+      "minExtent": 80,
+      "maxExtent": 80
     }
   },
   "background": "transparent",
   "title": "Share of the value of Australia's camera imports by country of origin, 2025",
-  "width": 845,
-  "height": 430,
+  "width": 900,
+  "height": 450,
   "projection": {
     "type": "equalEarth",
     "rotate": [
@@ -444,9 +449,9 @@
             "fontSize": 12,
             "fontWeight": 700,
             "baseline": "middle",
-            "dx": -4,
-            "dy": -26,
-            "align": "right"
+            "dx": 4,
+            "dy": 26,
+            "align": "left"
           },
           "encoding": {
             "longitude": {
@@ -566,5 +571,11 @@
     "scale": {
       "color": "independent"
     }
+  },
+  "padding": {
+    "left": 79,
+    "top": 5,
+    "right": 0,
+    "bottom": 5
   }
 }
