@@ -1,12 +1,12 @@
-// Load the chart fonts first so chart text is drawn in Open Sans
+// Load the chart fonts first so chart text is drawn in Manrope
 Promise.all([
-  document.fonts.load('400 12px "Open Sans"'),
-  document.fonts.load('600 12px "Open Sans"'),
-  document.fonts.load('700 12px "Open Sans"')
+  document.fonts.load('400 12px "Manrope"'),
+  document.fonts.load('600 12px "Manrope"'),
+  document.fonts.load('700 12px "Manrope"')
 ]).then(drawCharts, drawCharts);
 
 // Added to each chart file's address so the browser fetches the latest version
-const version = "?v=12";
+const version = "?v=46";
 
 function drawCharts() {
   vegaEmbed("#film_vs_digital", "specs/film_vs_digital.vg.json" + version, { "actions": false })
@@ -16,9 +16,6 @@ function drawCharts() {
     .catch(console.error);
 
   vegaEmbed("#brand_heatmap", "specs/brand_heatmap.vg.json" + version, { "actions": false })
-    .catch(console.error);
-
-  vegaEmbed("#brand_vs_imports", "specs/brand_vs_imports.vg.json" + version, { "actions": false })
     .catch(console.error);
 
   vegaEmbed("#brand_ranks", "specs/brand_ranks.vg.json" + version, { "actions": false })
@@ -36,12 +33,15 @@ function drawCharts() {
   vegaEmbed("#comeback", "specs/comeback.vg.json" + version, { "actions": false })
     .catch(console.error);
 
-  vegaEmbed("#import_origins", "specs/import_origins.vg.json" + version, { "actions": false })
-    .catch(console.error);
-
   vegaEmbed("#import_flows", "specs/import_flows.vg.json" + version, { "actions": false })
     .catch(console.error);
 
-  vegaEmbed("#world_regions", "specs/world_regions.vg.json" + version, { "actions": false })
+  vegaEmbed("#import_origins", "specs/import_origins.vg.json" + version, { "actions": false })
+    .catch(console.error);
+
+  vegaEmbed("#world_per_person", "specs/world_per_person.vg.json" + version, { "actions": false })
+    .catch(console.error);
+
+  vegaEmbed("#photographers_states", "specs/photographers_states.vg.json" + version, { "actions": false })
     .catch(console.error);
 }

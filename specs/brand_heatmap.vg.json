@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "The brand wars: total camera shipments (CIPA) above a heatmap of how many camera models each brand released per year, 1999-2007 (1000 Cameras Dataset).",
+  "description": "The brand wars: a heatmap of how many camera models each brand released per year, 1999-2007 (1000 Cameras Dataset).",
   "config": {
-    "font": "Open Sans",
+    "font": "Manrope",
     "view": {
       "stroke": null
     },
@@ -38,79 +38,7 @@
   "spacing": 56,
   "vconcat": [
     {
-      "title": "Cameras shipped worldwide by major makers, 1999–2007 (millions)",
-      "width": 840,
-      "height": 70,
-      "data": {
-        "url": "data/cipa_digital_by_type_1999-2025.csv",
-        "format": {
-          "parse": {
-            "year": "number",
-            "total_thousand_units": "number"
-          }
-        }
-      },
-      "transform": [
-        {
-          "filter": "datum.year <= 2007"
-        },
-        {
-          "calculate": "datum.total_thousand_units / 1000",
-          "as": "shipped_millions"
-        }
-      ],
-      "mark": {
-        "type": "bar",
-        "color": "#c3c2b7",
-        "cornerRadiusEnd": 2
-      },
-      "encoding": {
-        "x": {
-          "field": "year",
-          "type": "ordinal",
-          "scale": {
-            "domain": [
-              1999,
-              2000,
-              2001,
-              2002,
-              2003,
-              2004,
-              2005,
-              2006,
-              2007
-            ],
-            "paddingInner": 0.15
-          },
-          "axis": null
-        },
-        "y": {
-          "field": "shipped_millions",
-          "type": "quantitative",
-          "title": null,
-          "axis": {
-            "tickCount": 2,
-            "format": "d",
-            "labelPadding": 6
-          }
-        },
-        "tooltip": [
-          {
-            "field": "year",
-            "type": "ordinal",
-            "title": "Year"
-          },
-          {
-            "field": "shipped_millions",
-            "type": "quantitative",
-            "title": "Cameras shipped (millions)",
-            "format": ".1f"
-          }
-        ]
-      }
-    },
-    {
-      "title": "Camera models released by each brand, 1999–2007 (darker = more models)",
+      "title": "Models in the 1000 Cameras Dataset released by each brand, 1999–2007 (darker = more models)",
       "width": 840,
       "height": {
         "step": 22

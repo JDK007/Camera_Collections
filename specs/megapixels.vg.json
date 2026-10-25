@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "The megapixel race: digital camera shipments (CIPA) above the megapixels of every camera model released 1994-2007 (1000 Cameras Dataset).",
+  "description": "The megapixel race: the megapixels of every camera model in the 1000 Cameras Dataset, 1994-2007, with the typical (median) camera each year. A drop-down menu highlights one brand's cameras.",
   "config": {
-    "font": "Open Sans",
+    "font": "Manrope",
     "view": {
       "stroke": null
     },
@@ -36,117 +36,7 @@
   },
   "vconcat": [
     {
-      "title": "Cameras shipped worldwide by major makers, 1999–2007 (millions)",
-      "width": 840,
-      "height": 110,
-      "data": {
-        "url": "data/cipa_digital_by_type_1999-2025.csv"
-      },
-      "transform": [
-        {
-          "filter": "datum.year <= 2007"
-        },
-        {
-          "calculate": "datum.total_thousand_units / 1000",
-          "as": "shipped_millions"
-        }
-      ],
-      "encoding": {
-        "x": {
-          "field": "year",
-          "type": "quantitative",
-          "scale": {
-            "domain": [
-              1998.7,
-              2007.3
-            ],
-            "nice": false
-          },
-          "axis": {
-            "format": "d",
-            "tickCount": 9,
-            "title": null,
-            "grid": false,
-            "labelAngle": 0
-          }
-        },
-        "y": {
-          "field": "shipped_millions",
-          "type": "quantitative",
-          "title": null,
-          "axis": {
-            "tickCount": 3,
-            "format": "d"
-          }
-        }
-      },
-      "layer": [
-        {
-          "mark": {
-            "type": "area",
-            "color": "#d6d4ce",
-            "interpolate": "monotone"
-          }
-        },
-        {
-          "mark": {
-            "type": "line",
-            "color": "#8a8880",
-            "strokeWidth": 2,
-            "interpolate": "monotone"
-          }
-        },
-        {
-          "mark": {
-            "type": "point",
-            "filled": true,
-            "size": 40,
-            "color": "#8a8880"
-          },
-          "encoding": {
-            "tooltip": [
-              {
-                "field": "year",
-                "type": "quantitative",
-                "title": "Year",
-                "format": "d"
-              },
-              {
-                "field": "shipped_millions",
-                "type": "quantitative",
-                "title": "Cameras shipped (millions)",
-                "format": ".1f"
-              }
-            ]
-          }
-        },
-        {
-          "data": {
-            "values": [
-              {
-                "year": 2007,
-                "shipped_millions": 100.4
-              }
-            ]
-          },
-          "mark": {
-            "type": "text",
-            "align": "right",
-            "dx": -8,
-            "dy": -6,
-            "fontSize": 12,
-            "color": "#52514e"
-          },
-          "encoding": {
-            "text": {
-              "value": "100 million in 2007"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "title": "Megapixels of every camera released, 1994–2007 (each dot is one model)",
+      "title": "Megapixels of every camera in the 1000 Cameras Dataset, 1994–2007 (each dot is one model)",
       "width": 840,
       "height": 340,
       "data": {
@@ -205,13 +95,15 @@
             {
               "calculate": "datum.year + (random() - 0.5) * 0.6",
               "as": "year_jittered"
+            },
+            {
+              "calculate": "split(datum.Model, ' ')[0]",
+              "as": "brand"
             }
           ],
           "mark": {
             "type": "circle",
             "size": 34,
-            "opacity": 0.35,
-            "color": "#2a78d6",
             "clip": true
           },
           "encoding": {
@@ -239,6 +131,11 @@
                 "title": "Camera"
               },
               {
+                "field": "brand",
+                "type": "nominal",
+                "title": "Brand"
+              },
+              {
                 "field": "year",
                 "type": "quantitative",
                 "title": "Released",
@@ -249,7 +146,27 @@
                 "type": "quantitative",
                 "title": "Megapixels"
               }
-            ]
+            ],
+            "opacity": {
+              "condition": [
+                {
+                  "test": "brand_pick == 'All brands'",
+                  "value": 0.35
+                },
+                {
+                  "test": "datum.brand == brand_pick",
+                  "value": 0.9
+                }
+              ],
+              "value": 0.08
+            },
+            "color": {
+              "condition": {
+                "test": "brand_pick != 'All brands' && datum.brand != brand_pick",
+                "value": "#a9a59b"
+              },
+              "value": "#2a78d6"
+            }
           }
         },
         {
@@ -333,5 +250,28 @@
     "right": 80,
     "bottom": 5
   },
-  "spacing": 48
+  "spacing": 48,
+  "params": [
+    {
+      "name": "brand_pick",
+      "value": "All brands",
+      "bind": {
+        "input": "select",
+        "options": [
+          "All brands",
+          "Canon",
+          "Casio",
+          "Fujifilm",
+          "Kodak",
+          "Nikon",
+          "Olympus",
+          "Panasonic",
+          "Pentax",
+          "Samsung",
+          "Sony"
+        ],
+        "name": "Highlight a brand "
+      }
+    }
+  ]
 }

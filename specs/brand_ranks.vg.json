@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Brand rankings: each of the ten biggest brands ranked by number of camera models released per year, 1999-2007 (1000 Cameras Dataset). Click a line to highlight a brand.",
+  "description": "Brand rankings: each of the ten biggest brands ranked by number of camera models released per year, 1999-2007 (1000 Cameras Dataset), labelled with the country each brand is headquartered in (brand headquarters list). Click a line to highlight a brand.",
   "config": {
-    "font": "Open Sans",
+    "font": "Manrope",
     "view": {
       "stroke": null
     },
@@ -34,7 +34,7 @@
       }
     }
   },
-  "title": "Rank by number of camera models released each year, 1999–2007 (1 = most). Click a line to highlight it.",
+  "title": "Who led? Rank by models released each year, 1999–2007 (1 = most). Click a line to highlight it.",
   "width": 840,
   "height": 330,
   "data": {
@@ -111,6 +111,22 @@
     {
       "calculate": "indexof(['Samsung', 'Kodak', 'Sony', 'Canon', 'Olympus'], datum.brand) >= 0 ? datum.brand : 'Other brands'",
       "as": "highlight"
+    },
+    {
+      "lookup": "brand",
+      "from": {
+        "data": {
+          "url": "data/brand_countries.csv"
+        },
+        "key": "brand",
+        "fields": [
+          "headquarters"
+        ]
+      }
+    },
+    {
+      "calculate": "datum.brand + ', ' + datum.headquarters",
+      "as": "brand_label"
     }
   ],
   "encoding": {
@@ -231,7 +247,7 @@
     {
       "mark": {
         "type": "circle",
-        "size": 70
+        "size": 160
       },
       "encoding": {
         "tooltip": [
@@ -239,6 +255,11 @@
             "field": "brand",
             "type": "nominal",
             "title": "Brand"
+          },
+          {
+            "field": "headquarters",
+            "type": "nominal",
+            "title": "Based in"
           },
           {
             "field": "year",
@@ -256,7 +277,10 @@
             "type": "quantitative",
             "title": "Models released"
           }
-        ]
+        ],
+        "opacity": {
+          "value": 0
+        }
       }
     },
     {
@@ -269,12 +293,12 @@
         "type": "text",
         "align": "left",
         "dx": 10,
-        "fontSize": 12,
+        "fontSize": 11,
         "fontWeight": "bold"
       },
       "encoding": {
         "text": {
-          "field": "brand",
+          "field": "brand_label",
           "type": "nominal"
         },
         "color": {

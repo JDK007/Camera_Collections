@@ -1,0 +1,400 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Choropleth of professional photography businesses per 100,000 people by Australian state and territory, June 2025 (ABS Counts of Australian Businesses, ABS population).",
+  "config": {
+    "font": "Manrope",
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "anchor": "middle",
+      "fontSize": 13,
+      "fontWeight": "normal",
+      "color": "#52514e",
+      "frame": "group",
+      "offset": 12
+    },
+    "axis": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "gridColor": "#e8e7e4",
+      "domainColor": "#c3c2b7",
+      "tickColor": "#c3c2b7"
+    },
+    "legend": {
+      "titleLimit": 300,
+      "labelLimit": 300,
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "layout": {
+        "bottom": {
+          "anchor": "middle"
+        }
+      }
+    },
+    "axisY": {
+      "minExtent": 80,
+      "maxExtent": 80
+    }
+  },
+  "background": "transparent",
+  "title": {
+    "text": "Professional photography businesses for every 100,000 people, June 2025",
+    "subtitle": "Hover over a state or territory for details",
+    "subtitleFontStyle": "italic",
+    "subtitleColor": "#52514e",
+    "subtitleFontSize": 12
+  },
+  "width": 840,
+  "height": 420,
+  "projection": {
+    "type": "mercator",
+    "center": [
+      134,
+      -28
+    ],
+    "scale": 620,
+    "translate": [
+      370,
+      205
+    ]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/photography_businesses_by_state_2025.csv",
+        "format": {
+          "parse": {
+            "businesses_start": "number",
+            "entries": "number",
+            "exits": "number",
+            "non_employing_start": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "url": "data/state_population_2025.csv"
+            },
+            "key": "state",
+            "fields": [
+              "population"
+            ]
+          }
+        },
+        {
+          "calculate": "datum.businesses_start + datum.entries - datum.exits",
+          "as": "businesses"
+        },
+        {
+          "calculate": "1e5 * datum.businesses / toNumber(datum.population)",
+          "as": "per_100k"
+        },
+        {
+          "calculate": "100 * datum.non_employing_start / datum.businesses_start",
+          "as": "solo_pct"
+        },
+        {
+          "calculate": "datum.per_100k < 20 ? 'Under 20' : datum.per_100k < 25 ? '20 to 25' : datum.per_100k < 30 ? '25 to 30' : '30 or more'",
+          "as": "per_class"
+        },
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "url": "data/aus_states.topo.json",
+              "format": {
+                "type": "topojson",
+                "feature": "states"
+              }
+            },
+            "key": "properties.state"
+          },
+          "as": "geo"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "#faf7f2",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "shape": {
+          "field": "geo",
+          "type": "geojson"
+        },
+        "color": {
+          "field": "per_class",
+          "type": "ordinal",
+          "scale": {
+            "domain": [
+              "Under 20",
+              "20 to 25",
+              "25 to 30",
+              "30 or more"
+            ],
+            "range": [
+              "#dadaeb",
+              "#9e9ac8",
+              "#6a51a3",
+              "#3f007d"
+            ]
+          },
+          "legend": {
+            "title": [
+              "Photography businesses",
+              "for every 100,000 people"
+            ],
+            "symbolType": "square",
+            "symbolSize": 180,
+            "orient": "none",
+            "legendX": 650,
+            "legendY": 150
+          }
+        },
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State or territory"
+          },
+          {
+            "field": "businesses",
+            "type": "quantitative",
+            "title": "Photography businesses",
+            "format": ","
+          },
+          {
+            "field": "per_100k",
+            "type": "quantitative",
+            "title": "Per 100,000 people",
+            "format": ".1f"
+          },
+          {
+            "field": "solo_pct",
+            "type": "quantitative",
+            "title": "Run by one person, no staff (%)",
+            "format": ".0f"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/photography_businesses_by_state_2025.csv",
+        "format": {
+          "parse": {
+            "businesses_start": "number",
+            "entries": "number",
+            "exits": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "url": "data/state_population_2025.csv"
+            },
+            "key": "state",
+            "fields": [
+              "population"
+            ]
+          }
+        },
+        {
+          "calculate": "1e5 * (datum.businesses_start + datum.entries - datum.exits) / toNumber(datum.population)",
+          "as": "per_100k"
+        },
+        {
+          "lookup": "abbrev",
+          "from": {
+            "data": {
+              "values": [
+                {
+                  "abbrev": "NSW",
+                  "lon": 146.5,
+                  "lat": -32.2,
+                  "al": "center",
+                  "outside": 0
+                },
+                {
+                  "abbrev": "Vic",
+                  "lon": 144.3,
+                  "lat": -36.9,
+                  "al": "center",
+                  "outside": 0
+                },
+                {
+                  "abbrev": "Qld",
+                  "lon": 144.5,
+                  "lat": -22.5,
+                  "al": "center",
+                  "outside": 0
+                },
+                {
+                  "abbrev": "SA",
+                  "lon": 135,
+                  "lat": -30,
+                  "al": "center",
+                  "outside": 0
+                },
+                {
+                  "abbrev": "WA",
+                  "lon": 121.5,
+                  "lat": -26,
+                  "al": "center",
+                  "outside": 0
+                },
+                {
+                  "abbrev": "Tas",
+                  "lon": 149.5,
+                  "lat": -42.3,
+                  "al": "left",
+                  "outside": 1
+                },
+                {
+                  "abbrev": "NT",
+                  "lon": 133.4,
+                  "lat": -19.5,
+                  "al": "center",
+                  "outside": 0
+                },
+                {
+                  "abbrev": "ACT",
+                  "lon": 153,
+                  "lat": -35.5,
+                  "al": "left",
+                  "outside": 1
+                }
+              ]
+            },
+            "key": "abbrev",
+            "fields": [
+              "lon",
+              "lat",
+              "al",
+              "outside"
+            ]
+          }
+        },
+        {
+          "calculate": "upper(datum.abbrev)",
+          "as": "label"
+        },
+        {
+          "calculate": "datum.per_100k >= 25 && datum.outside == 0",
+          "as": "dark"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "fontWeight": 700
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            },
+            "color": {
+              "condition": {
+                "test": "datum.dark",
+                "value": "#ffffff"
+              },
+              "value": "#2b2a28"
+            }
+          },
+          "transform": [
+            {
+              "filter": "datum.al == 'center'"
+            }
+          ]
+        },
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "fontWeight": 700,
+            "align": "left"
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "label"
+            },
+            "color": {
+              "condition": {
+                "test": "datum.dark",
+                "value": "#ffffff"
+              },
+              "value": "#2b2a28"
+            }
+          },
+          "transform": [
+            {
+              "filter": "datum.al == 'left'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "lon": 149.1,
+            "lat": -35.45,
+            "lon2": 152.7,
+            "lat2": -35.5
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "color": "#2b2a28",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "longitude2": {
+          "field": "lon2"
+        },
+        "latitude2": {
+          "field": "lat2"
+        }
+      }
+    }
+  ]
+}

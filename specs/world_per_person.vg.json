@@ -1,0 +1,293 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Choropleth of net camera imports per person in 2024 (imports minus exports, UN Comtrade, divided by World Bank population), in Australian dollars.",
+  "config": {
+    "font": "Manrope",
+    "view": {
+      "stroke": null
+    },
+    "title": {
+      "anchor": "middle",
+      "fontSize": 13,
+      "fontWeight": "normal",
+      "color": "#52514e",
+      "frame": "group",
+      "offset": 12
+    },
+    "axis": {
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "gridColor": "#e8e7e4",
+      "domainColor": "#c3c2b7",
+      "tickColor": "#c3c2b7"
+    },
+    "legend": {
+      "titleLimit": 300,
+      "labelLimit": 300,
+      "labelColor": "#52514e",
+      "titleColor": "#52514e",
+      "titleFontWeight": "normal",
+      "labelFontSize": 12,
+      "titleFontSize": 12,
+      "layout": {
+        "bottom": {
+          "anchor": "middle"
+        }
+      }
+    },
+    "axisY": {
+      "minExtent": 80,
+      "maxExtent": 80
+    }
+  },
+  "background": "transparent",
+  "title": {
+    "text": "Value of cameras imported for every person in each country, 2024",
+    "subtitle": "Imports minus exports, divided by population. Hover over a country for details.",
+    "subtitleFontStyle": "italic",
+    "subtitleColor": "#52514e",
+    "subtitleFontSize": 12
+  },
+  "width": 840,
+  "height": 420,
+  "projection": {
+    "type": "equalEarth",
+    "rotate": [
+      -150,
+      0,
+      0
+    ]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/world-110m.json",
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.id != '010'"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e4dfd4",
+        "stroke": "#faf7f2",
+        "strokeWidth": 0.5
+      }
+    },
+    {
+      "data": {
+        "url": "data/world_camera_trade_2024.csv",
+        "format": {
+          "parse": {
+            "imports_usd": "number",
+            "exports_usd": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "lookup": "iso3",
+          "from": {
+            "data": {
+              "url": "data/world_population_2024.csv"
+            },
+            "key": "iso3",
+            "fields": [
+              "population"
+            ]
+          }
+        },
+        {
+          "calculate": "toNumber(datum.population)",
+          "as": "population"
+        },
+        {
+          "calculate": "(datum.imports_usd - datum.exports_usd) / 0.6449",
+          "as": "net_aud"
+        },
+        {
+          "calculate": "datum.population > 0 ? datum.net_aud / datum.population : null",
+          "as": "aud_per_person"
+        },
+        {
+          "calculate": "datum.net_aud < 0 ? 'Sells more than it buys' : !isValid(datum.aud_per_person) ? 'No data' : datum.aud_per_person < 5 ? 'Under A$5' : datum.aud_per_person < 15 ? 'A$5 to A$15' : datum.aud_per_person < 30 ? 'A$15 to A$30' : 'A$30 or more'",
+          "as": "spend_class"
+        },
+        {
+          "calculate": "datum.net_aud < 0 ? 'Sells more than it buys (net exporter)' : 'A$' + format(datum.aud_per_person, '.2f')",
+          "as": "per_person_text"
+        },
+        {
+          "lookup": "geo_id",
+          "from": {
+            "data": {
+              "url": "data/world-110m.json",
+              "format": {
+                "type": "topojson",
+                "feature": "countries"
+              }
+            },
+            "key": "id"
+          },
+          "as": "geo"
+        },
+        {
+          "filter": "isValid(datum.geo)"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "#faf7f2",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "shape": {
+          "field": "geo",
+          "type": "geojson"
+        },
+        "color": {
+          "field": "spend_class",
+          "type": "ordinal",
+          "scale": {
+            "domain": [
+              "Under A$5",
+              "A$5 to A$15",
+              "A$15 to A$30",
+              "A$30 or more",
+              "Sells more than it buys",
+              "No data"
+            ],
+            "range": [
+              "#deebf7",
+              "#9ecae1",
+              "#4292c6",
+              "#08306b",
+              "#e8a33d",
+              "#e4dfd4"
+            ]
+          },
+          "legend": {
+            "title": "Imports per person",
+            "symbolType": "square",
+            "symbolSize": 180,
+            "orient": "none",
+            "legendX": 523,
+            "legendY": 250
+          }
+        },
+        "tooltip": [
+          {
+            "field": "country",
+            "type": "nominal",
+            "title": "Country"
+          },
+          {
+            "field": "per_person_text",
+            "type": "nominal",
+            "title": "Imports minus exports, per person"
+          },
+          {
+            "field": "imports_usd",
+            "type": "quantitative",
+            "title": "Imports (US$)",
+            "format": "$,.0f"
+          },
+          {
+            "field": "exports_usd",
+            "type": "quantitative",
+            "title": "Exports (US$)",
+            "format": "$,.0f"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/world-110m.json",
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.id == '036'"
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#9b2c2c",
+        "strokeWidth": 2.5
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "lon": 134,
+            "lat": -25,
+            "t1": "Australia: about A$40 per person, the most of",
+            "t2": "any country with over 1 million people"
+          }
+        ]
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "fontWeight": 700,
+            "color": "#9b2c2c",
+            "align": "right",
+            "dx": -80,
+            "dy": -6
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "t1"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 12,
+            "fontWeight": 700,
+            "color": "#9b2c2c",
+            "align": "right",
+            "dx": -80,
+            "dy": 10
+          },
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "t2"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

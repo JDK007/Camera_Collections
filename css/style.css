@@ -1,4 +1,4 @@
-body * { font-family: 'Open Sans', sans-serif; }
+body * { font-family: 'Manrope', sans-serif; }
 body { margin: 0; background-color: #ece7de; color: #2b2a28; }
 .page {
   max-width: 1000px;
@@ -72,3 +72,26 @@ header, .chapter, .stat-card, footer { text-align: center; }
 .interlude-text p { text-align: center; }
 .stat { flex: 0 1 280px; }
 .stat .number { font-size: 42px; white-space: nowrap; }
+
+/* Readable text blocks: headings stay centred, paragraphs read left to right */
+.intro, .source, .interlude-text p, .stat-card .intro { text-align: left; }
+.source { max-width: 680px; }
+.footer-body { max-width: 680px; margin: 0 auto; text-align: left; }
+.footer-body h3 { font-size: 18px; margin: 32px 0 12px; }
+.glossary dt { font-weight: 700; margin-top: 10px; }
+.glossary dd { margin: 2px 0 0; line-height: 1.5; }
+.sources { padding-left: 18px; line-height: 1.6; }
+.sources a { color: #9b2c2c; }
+.byline { margin-top: 32px; text-align: center; }
+
+/* Chart controls (slider and drop-down menu) */
+.vega-bind { font-family: "Manrope", sans-serif; font-size: 14px; color: #52514e; margin-top: 10px; }
+.vega-bind-name { font-weight: 600; margin-right: 8px; }
+.vega-bind input[type="range"] { accent-color: #2171b5; width: 240px; vertical-align: middle; }
+.vega-bind select { font-family: inherit; font-size: 14px; padding: 4px 8px; border: 1px solid #c3c2b7; border-radius: 4px; background: #fff; }
+
+/* Manrope body text: slightly larger line height for readability */
+body { color: #2b2a28; }
+.intro { font-size: 17px; line-height: 1.65; }
+.interlude-text p { font-weight: 500; letter-spacing: -0.005em; }
+.illustration { width: 230px; }

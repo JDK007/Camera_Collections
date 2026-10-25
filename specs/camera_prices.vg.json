@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Change in the average price of compact and interchangeable-lens cameras since 2003 (CIPA average shipment price, in yen).",
   "config": {
-    "font": "Open Sans",
+    "font": "Manrope",
     "view": {
       "stroke": null
     },
@@ -344,7 +344,7 @@
               {
                 "year": 2025,
                 "pct": 3,
-                "t": "Interchangeable-lens: +3%",
+                "t": "Interchangeable-lens",
                 "c": "#2a78d6"
               }
             ]
@@ -353,7 +353,58 @@
             "type": "text",
             "align": "right",
             "dx": -6,
-            "dy": 18,
+            "dy": 16,
+            "fontSize": 12,
+            "fontWeight": 600
+          },
+          "encoding": {
+            "x": {
+              "field": "year",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  2003,
+                  2025
+                ],
+                "nice": false
+              }
+            },
+            "y": {
+              "field": "pct",
+              "type": "quantitative",
+              "scale": {
+                "domain": [
+                  -90,
+                  150
+                ]
+              }
+            },
+            "text": {
+              "field": "t"
+            },
+            "color": {
+              "field": "c",
+              "type": "nominal",
+              "scale": null
+            }
+          }
+        },
+        {
+          "data": {
+            "values": [
+              {
+                "year": 2025,
+                "pct": 3,
+                "t": "cameras: +3%",
+                "c": "#2a78d6"
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "dx": -6,
+            "dy": 31,
             "fontSize": 12,
             "fontWeight": 600
           },
